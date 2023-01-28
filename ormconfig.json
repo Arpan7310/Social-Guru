@@ -1,0 +1,11 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": "3306",
+    "username": "arpan",
+    "password": "@Password1234",
+    "database": "social_gurus",
+    "synchronize": false,
+    "logging": true,
+    "entities": ["src//*.entity.ts", "dist//*entity.ts"]
+  }
