@@ -29,9 +29,8 @@ export class ClientService {
           else if((foundUser && foundUser.isVerified===false)){
             let email=createUserParams.email;
               clientDto ={
-                ...createUserParams,
-                password,
-                otp
+                ...foundUser,
+                 otp
              }
            return  this.clientRepository.update({email},{...clientDto})
           }
