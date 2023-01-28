@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateClientDto } from 'src/client/dtos/CreateClient.dto';
 import { Client } from 'src/typeorm/entities/Client';
+import { encodePassword } from 'src/utils/bcrypt';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -11,22 +12,38 @@ export class ClientService {
      
     }
 
-   async createUser(createUserParams:CreateClientDto){
-
-        
+    async createUser(createUserParams:CreateClientDto){
           let foundUser= await this.clientRepository.findOne({where:{email:createUserParams.email}});
-           console.log(foundUser);
-          if(!foundUser ||  (foundUser && foundUser.isVerified===false)){
-            
+          var clientDto:any;
           let otp=Math.random().toString().substring(2,7);
-          let clientDto ={
+          const password=await encodePassword(createUserParams.password);
+          if(!foundUser){
+         
+           clientDto ={
             ...createUserParams,
-            otp
+              password,
+              otp
            }
+           return this.clientRepository.save(clientDto);
+          }
+          else if((foundUser && foundUser.isVerified===false)){
+            let email=createUserParams.email;
+              clientDto ={
+                ...createUserParams,
+                password,
+                otp
+             }
+           return  this.clientRepository.update({email},{...clientDto})
+          }
+          else 
+          throw new HttpException("message", 400, { cause: new Error("Some Error") }) 
         
-         return this.clientRepository.save(clientDto);
+         
         }
-        else 
-        throw new HttpException("message", 400, { cause: new Error("Some Error") }) 
+        
+     
     }
-}
+
+
+
+
