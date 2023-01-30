@@ -10,8 +10,7 @@ export class ClientController {
     @Post()
     async createClient(@Body() createClientDto:CreateClientDto) {
         try {
-            
-           await this.clientService.createUser(createClientDto);
+              await this.clientService.createUser(createClientDto);
            return {
               message:"Client created successfully"
             }
