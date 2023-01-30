@@ -7,8 +7,7 @@ import { type } from 'os';
 import { Client } from './typeorm/entities/Client';
 import { ClientModule } from './client/client.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-
-
+import * as dotenv from 'dotenv' 
 @Module({
   imports: [RegistrationModule,
     TypeOrmModule.forRoot({
@@ -25,8 +24,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
     transport:{
     host:'smtp.sendgrid.net',
     auth:{
-      user:'apikey',
-      pass:'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'
+      user:process.env.apikey,
+      pass:process.env.password
     }
    }
   }),
