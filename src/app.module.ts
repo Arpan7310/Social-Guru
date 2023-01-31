@@ -10,7 +10,19 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [RegistrationModule,
+  imports: [
+    ConfigModule.forRoot(),
+    MailerModule.forRoot({
+      transport:{
+      host:'smtp.sendgrid.net',
+      auth:{
+        user:process.env.apikey,
+        pass:process.env.password
+      }
+     }
+    }),
+
+    RegistrationModule,
     TypeOrmModule.forRoot({
     type:'mysql',
     host:'localhost',
@@ -21,17 +33,10 @@ import { ConfigModule } from '@nestjs/config';
     entities:[Client],
     synchronize:true
   }), 
-  MailerModule.forRoot({
-    transport:{
-    host:'smtp.sendgrid.net',
-    auth:{
-      user:process.env.apikey,
-      pass:process.env.password
-    }
-   }
-  }),
+
+ 
   ClientModule,
-  ConfigModule.forRoot()
+
   ],
   controllers: [AppController],
   providers: [AppService],

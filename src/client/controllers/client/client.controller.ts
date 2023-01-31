@@ -17,7 +17,7 @@ export class ClientController {
             }
          }
         catch(err){
-     
+         console.log(err);
          throw new HttpException(err.message, err.status) 
         } 
 }
