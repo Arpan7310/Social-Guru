@@ -17,7 +17,7 @@ export class ClientController {
             }
          }
         catch(err){
-          throw new HttpException("message", 400, { cause: new Error("error occured") }) 
+          throw new HttpException(err.message, err.status) 
         } 
 }
 
@@ -30,7 +30,7 @@ export class ClientController {
        }
          }
          catch(err) {
-          throw new HttpException(err.message,400)
+          throw new HttpException(err.message,err.status)
          }
       
   

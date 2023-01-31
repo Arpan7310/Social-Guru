@@ -59,9 +59,7 @@ export class ClientService {
       return this.sendMailTo(createUserParams.email, otp);
     }
     else
-      throw new HttpException("message", 400, { cause: new Error("User already exists") })
-
-
+      throw new HttpException("User already exists",400)
 
   }
 
@@ -77,10 +75,10 @@ export class ClientService {
     }
     else if (foundUser.otp == otp && !foundUser.isVerified) {
       foundUser.isVerified = true;
-       this.clientRepository.update({ email: foundUser.email }, { ...foundUser });
-      
+      this.clientRepository.update({ email: foundUser.email }, { ...foundUser });
+
     }
-    else if (foundUser.otp!==otp && !foundUser.isVerified){
+    else if (foundUser.otp !== otp && !foundUser.isVerified) {
       throw new HttpException("Wrong otp entered", 400);
     }
 
