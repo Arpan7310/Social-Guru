@@ -7,7 +7,8 @@ import { type } from 'os';
 import { Client } from './typeorm/entities/Client';
 import { ClientModule } from './client/client.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import * as dotenv from 'dotenv' 
+import { ConfigModule } from '@nestjs/config';
+
 @Module({
   imports: [RegistrationModule,
     TypeOrmModule.forRoot({
@@ -30,8 +31,7 @@ import * as dotenv from 'dotenv'
    }
   }),
   ClientModule,
-
-  
+  ConfigModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],
