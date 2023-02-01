@@ -25,11 +25,10 @@ import { ConfigModule } from '@nestjs/config';
     RegistrationModule,
     TypeOrmModule.forRoot({
     type:'mysql',
-    host:'localhost',
-    port:3306,
-    username:'arpan',
-    password:'@Password1234',
-    database:'social_guru',
+    host:process.env.db_host,
+    username:process.env.db_username,
+    password:process.env.db_password,
+    database:process.env.db_name,
     entities:[Client],
     synchronize:true
   }), 
