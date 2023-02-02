@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RegistrationModule } from './registration/registration.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { type } from 'os';
 import { Client } from './typeorm/entities/Client';
@@ -21,9 +20,7 @@ import { ConfigModule } from '@nestjs/config';
       }
      }
     }),
-
-    RegistrationModule,
-    TypeOrmModule.forRoot({
+     TypeOrmModule.forRoot({
     type:'mysql',
     host:process.env.db_host,
     username:process.env.db_username,
