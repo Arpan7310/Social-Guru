@@ -38,7 +38,7 @@ export class ClientController {
     }
 
 
-    @Get("/test")
+    @Get("")
 
     async test () {
       return {
