@@ -7,6 +7,7 @@ import { Client } from './typeorm/entities/Client';
 import { ClientModule } from './client/client.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
+import { EmployeeModule } from './employee/employee.module';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { ConfigModule } from '@nestjs/config';
   }), 
 
  
-  ClientModule,
+  ClientModule, EmployeeModule,
 
   ],
   controllers: [AppController],

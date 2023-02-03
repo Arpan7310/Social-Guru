@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { ClientService } from 'src/client/services/client/client.service';
 import {CreateClientDto} from '../../dtos/CreateClient.dto'
@@ -35,6 +35,15 @@ export class ClientController {
          }
       
   
+    }
+
+
+    @Get("/test")
+
+    async test () {
+      return {
+        name :"mukherjee"
+      }
     }
 
 
