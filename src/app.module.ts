@@ -8,6 +8,7 @@ import { ClientModule } from './client/client.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
 import { EmployeeModule } from './employee/employee.module';
+import { Employee } from './typeorm/entities/Employee';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { EmployeeModule } from './employee/employee.module';
     username:process.env.db_username,
     password:process.env.db_password,
     database:process.env.db_name,
-    entities:[Client],
+    entities:[Client,Employee],
     synchronize:true
   }), 
 

@@ -31,6 +31,7 @@ export class ClientService {
 
   async createUser(createUserParams: CreateClientDto) {
 
+    
     let foundUser = await this.clientRepository.findOne({ where: { email: createUserParams.email } });
     var clientDto: any;
     let otp = Math.random().toString().substring(2, 7);
