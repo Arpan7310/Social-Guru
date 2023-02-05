@@ -1,7 +1,9 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { ClientService } from 'src/client/services/client/client.service';
 import {CreateClientDto} from '../../dtos/CreateClient.dto'
+
 @Controller('client')
 export class ClientController {
 
@@ -38,13 +40,25 @@ export class ClientController {
     }
 
 
-    @Get("")
+    @Post("/login")
+    async signin(@Body() credentials:CredentialsDto) {
+      try {
+        
+       await this.clientService.verifyClient(credentials);
+         return {
+          message:"Client login successful"
+         }
+         
+      }
 
-    async test () {
-      return {
-        name :"mukherjee"
+      catch(err){
+        throw new HttpException(err.message,err.status)
       }
     }
+
+
+
+    
 
 
     

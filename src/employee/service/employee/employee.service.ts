@@ -5,8 +5,9 @@ import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { Employee } from 'src/typeorm/entities/Employee';
 import { Repository } from 'typeorm';
 import { threadId } from 'worker_threads';
-import { encodePassword } from 'src/utils/bcrypt';
+import { encodePassword,isMatch } from 'src/utils/bcrypt';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
+import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -83,6 +84,24 @@ export class EmployeeService {
         }
 
     }
+
+
+
+    async verifyEmployee (credentials:CredentialsDto) {
+
+        let {email,password} =credentials;
+        let foundEmployee= await this.employeeRepository.findOne({where:{email}});
+
+         if(!foundEmployee){
+           throw new HttpException("Employee not found", 400) 
+         }
+        
+         let bool=await isMatch(foundEmployee.password,password);
+         if(!bool) {
+            throw new HttpException("Wrong credentials",400)
+         }
+        
+     }
 
 
 

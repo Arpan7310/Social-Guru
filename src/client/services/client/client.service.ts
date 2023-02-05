@@ -2,10 +2,11 @@ import { HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateClientDto } from 'src/client/dtos/CreateClient.dto';
 import { Client } from 'src/typeorm/entities/Client';
-import { encodePassword } from 'src/utils/bcrypt';
+import { encodePassword, isMatch } from 'src/utils/bcrypt';
 import { Repository } from 'typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
+import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 
 @Injectable()
 export class ClientService {
@@ -31,7 +32,6 @@ export class ClientService {
 
   async createUser(createUserParams: CreateClientDto) {
 
-    
     let foundUser = await this.clientRepository.findOne({ where: { email: createUserParams.email } });
     var clientDto: any;
     let otp = Math.random().toString().substring(2, 7);
@@ -86,12 +86,26 @@ export class ClientService {
     else if (foundUser.isVerified) {
       throw new HttpException("User already verified", 400);
     }
-
-
-
-
-
   }
+
+
+ 
+  async verifyClient (credentials:CredentialsDto) {
+
+    let {email,password} =credentials;
+    let foundEmployee= await this.clientRepository.findOne({where:{email}});
+
+     if(!foundEmployee){
+       throw new HttpException("Client not found", 400) 
+     }
+    
+     let bool=await isMatch(foundEmployee.password,password);
+     if(!bool) {
+        throw new HttpException("Wrong credentials",400)
+     }
+    
+ }
+
 
 
 
