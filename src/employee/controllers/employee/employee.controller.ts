@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post } from '@nestjs/common';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
@@ -55,6 +55,15 @@ export class EmployeeController {
 
       catch(err){
         throw new HttpException(err.message,err.status)
+      }
+    }
+
+
+    @Get("/test")
+
+    async test() {
+      return {
+        message:"ui"
       }
     }
 
