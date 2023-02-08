@@ -1,5 +1,6 @@
 import { table } from 'console';
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm'
+import {Column, Entity, PrimaryGeneratedColumn,OneToMany} from 'typeorm'
+import { Job } from './Job';
 
 
 @Entity({name:"client"})
@@ -34,5 +35,8 @@ export class Client {
 
     @Column({default:false})
     isVerified:boolean
+
+    @OneToMany(()=>Job,job=>job.id)
+    job:Job[]
 
 }

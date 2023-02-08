@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import  {City} from './Cities'
 import { Client } from "./Client";
 import { Employee } from "./Employee";
@@ -55,7 +55,7 @@ export class Job {
 
 
 
-     @OneToOne(()=>Client)
+     @ManyToOne(()=>Client,client=>client.id)
      @JoinColumn()
      client:Client
 
