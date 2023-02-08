@@ -108,12 +108,12 @@ export class ClientService {
 
 
  async findClient (email:string) {
-  let foundClient=this.clientRepository.findOne({where:{email}})
+  let foundClient=await this.clientRepository.findOne({where:{email}})
  
   if(!foundClient){
     throw new HttpException("Client not found",400)
   }
-
+  delete foundClient["password"]
   return foundClient;
  }
 

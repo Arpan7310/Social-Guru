@@ -19,7 +19,6 @@ export class JobsController {
 
 
     @Get("/city")
-
     async getAllCity(){
         const res=await this.jobsService.getAllCity();
         return res
@@ -31,6 +30,12 @@ export class JobsController {
     async getAllSkills(){
         const res=await this.jobsService.getAllSkills();
         return res
+    }
+
+
+    @Get("/findAll")
+     async getAllJobs () {
+        return this.jobsService.findAllJobs()
     }
 }
 

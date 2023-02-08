@@ -15,6 +15,7 @@ export class createJobDto {
     stipendtype:string;
     stipendamountmin:number;
     stipendamountmax:number;
+    clientId:number;
 
     
 }
