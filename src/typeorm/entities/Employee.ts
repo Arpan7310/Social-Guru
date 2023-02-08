@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Job } from "./Job";
 
 
 
@@ -29,6 +30,8 @@ export class Employee {
 
     @Column()
     otp:string
+
+   
 
 
 }

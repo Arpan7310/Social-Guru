@@ -104,5 +104,16 @@ export class EmployeeService {
      }
 
 
+     async findEmployee(email:string){
+     let foundEmployee=this.employeeRepository.findOne({where:{email}})
+     
+
+     if(!foundEmployee){
+        throw new HttpException("Employee not found",400)
+     }
+     return foundEmployee
+     }
+
+
 
 }

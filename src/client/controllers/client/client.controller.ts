@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { ClientService } from 'src/client/services/client/client.service';
@@ -54,6 +54,22 @@ export class ClientController {
       catch(err){
         throw new HttpException(err.message,err.status)
       }
+    }
+
+
+    @Get("/find/")
+   
+    async getDetails(@Query("email") email:string ) {
+
+      try{
+      const res= this.clientService.findClient(email);
+      return res;
+      }
+      catch(err){
+        throw new HttpException(err.message,err.status)
+      }
+
+   
     }
 
 

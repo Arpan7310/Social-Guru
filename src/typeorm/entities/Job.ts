@@ -1,5 +1,7 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import  {City} from './Cities'
+import { Client } from "./Client";
+import { Employee } from "./Employee";
 import {Skill} from './Skills'
 
 @Entity({name:"job"})
@@ -50,5 +52,17 @@ export class Job {
         default:0
     })
     stipendamountmax:number
+
+
+
+     @OneToOne(()=>Client)
+     @JoinColumn()
+     client:Client
+
+     @ManyToMany(()=>Employee)
+     @JoinTable()
+     employee:Employee[];
+
+
 
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post,Query } from '@nestjs/common';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
@@ -66,6 +66,25 @@ export class EmployeeController {
         message:"ui"
       }
     }
+
+
+    @Get("/find/")
+   
+    async getDetails(@Query("email") email:string ) {
+
+      try{
+      const res= this.employeeService.findEmployee(email);
+      return res;
+      }
+      catch(err){
+        throw new HttpException(err.message,err.status)
+      }
+
+   
+    }
+
+
+
 
 
 
