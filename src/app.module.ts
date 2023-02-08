@@ -9,6 +9,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule } from '@nestjs/config';
 import { EmployeeModule } from './employee/employee.module';
 import { Employee } from './typeorm/entities/Employee';
+import { City } from './typeorm/entities/Cities';
+import { Job } from './typeorm/entities/Job';
+import { Skill } from './typeorm/entities/Skills';
+import { JobsModule } from './jobs/jobs.module';
+
 
 @Module({
   imports: [
@@ -28,12 +33,12 @@ import { Employee } from './typeorm/entities/Employee';
     username:process.env.db_username,
     password:process.env.db_password,
     database:process.env.db_name,
-    entities:[Client,Employee],
+    entities:[Client,Employee,City,Job,Skill],
     synchronize:true
   }), 
 
  
-  ClientModule, EmployeeModule,
+  ClientModule, EmployeeModule, JobsModule,
 
   ],
   controllers: [AppController],
