@@ -73,7 +73,13 @@ export class JobsService {
 
 
     async findAllJobs () {
-      let foundPosting=await this.jobsRepository.find();
+      let foundPosting=await this.jobsRepository.find(
+        {relations:{
+          cities:true,
+          skills:true,
+          client:true,
+       }}
+      )
       return foundPosting;
     }
 }
