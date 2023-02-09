@@ -24,6 +24,11 @@ export class JobsService {
     async createJob(createJobDto:createJobDto) {
        let job=new Job();
        let cities=[],skills=[];
+       let foundClient=await this.clientRepository.findOne({where:{id:createJobDto.clientId}});
+   
+       if(!foundClient){
+        throw new HttpException('Client Not Found',400)
+       }
        job.duration=createJobDto.duration;
        job.jobprofile=createJobDto.jobprofile;
        job.openings=createJobDto.openings;
@@ -34,31 +39,19 @@ export class JobsService {
        job.openings=createJobDto.openings;
        job.stipendtype=createJobDto.stipendtype;
      
-       let foundClient=await this.clientRepository.findOne({where:{id:createJobDto.clientId}});
    
-       if(!foundClient){
-        throw new HttpException('Client Not Found',400)
-       }
 
        job.client=foundClient;
+       job.cities=createJobDto.cities;
+       job.skills=createJobDto.skills;
 
 
-       
-
-        for(let  i=0;i<createJobDto.cities.length;i++){
-            let foundCity=await this.cityRepository.findOne({where:{city:createJobDto.cities[i]}});
-             cities.push(foundCity) 
-        }
       
+
    
-        for(let  i=0;i<createJobDto.skills.length;i++){
-            let foundSkill=await this.skillRepository.findOne({where:{skill:createJobDto.skills[i]}});
+
         
-          skills.push(foundSkill)
-        }
-       
-       job.cities=cities;
-       job.skills=skills;
+  
 
    
        
