@@ -3,18 +3,24 @@ import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { Employee } from 'src/typeorm/entities/Employee';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 import { threadId } from 'worker_threads';
 import { encodePassword,isMatch } from 'src/utils/bcrypt';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
+import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
+import { Job } from 'src/typeorm/entities/Job';
 
 @Injectable()
 export class EmployeeService {
 
-    constructor(@InjectRepository(Employee) private employeeRepository: Repository<Employee>, private mailService: MailerService) {
-
+    constructor(@InjectRepository(Employee) private employeeRepository: Repository<Employee>, private mailService: MailerService,
+     @InjectRepository(Job) private jobRepository:Repository<Job>
+    ) {
+     
     }
+
+  
 
     async sendMailTo(email: string, otp: string) {
         const res = await this.mailService.sendMail({
@@ -114,6 +120,72 @@ export class EmployeeService {
      delete foundEmployee["password"]
      return foundEmployee
      }
+
+
+     async applyJob(applyJobDto:applyJobDto){
+        let foundEmployee= await this.employeeRepository.findOne({where:{id:applyJobDto.employeeId},
+            relations:{
+                job:true
+            }
+      });
+
+    //   const entityManger=getManager().getRepository('')
+
+
+    //    const data=await entityManger.query (`Select * from employee_job_job where employeeId=? and   jobId= ?`,[applyJobDto.employeeId,applyJobDto.jobId] );
+
+    //    console.log(data)
+
+        let foundJob= await this.jobRepository.findOne({where:{id:applyJobDto.jobId},
+           relations:{
+                employees:true
+            }
+        });
+     
+        if(!foundEmployee){
+            throw new HttpException("expert not found",400);
+        }
+
+        if(!foundJob){
+            throw new HttpException("opportunity not found",400);
+        }
+
+        if(foundJob.employees.includes(foundEmployee)) {
+            console.log("hello");
+            throw new HttpException("Already applied to this job",400)
+        }
+
+        foundEmployee.job.push(foundJob);
+
+       
+      return this.employeeRepository.save(foundEmployee);
+
+     }
+
+
+     async findAppliedJobs(employeeId:number) {
+  
+     let employeeData=await   this.employeeRepository.findOne({where:{
+           id:employeeId
+        },
+        relations:{
+            job:true
+        }
+    })
+
+    if(!employeeData){
+        throw new HttpException("Employee Not found ",400)
+    }
+
+    let jobsApplied=employeeData.job;
+
+    return jobsApplied
+
+
+
+     }
+
+    
 
 
 

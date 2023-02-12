@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable} from "typeorm";
 import { Job } from "./Job";
 
 
@@ -31,7 +31,9 @@ export class Employee {
     @Column()
     otp:string
 
-   
+    @ManyToMany(()=>Job,job=>job.employees)
+    @JoinTable()
+    job:Job[];
 
 
 }

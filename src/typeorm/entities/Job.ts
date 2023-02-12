@@ -59,9 +59,11 @@ export class Job {
      @JoinColumn()
      client:Client
 
-     @ManyToMany(()=>Employee)
-     @JoinTable()
-     employee:Employee[];
+
+     @ManyToMany(()=>Employee,employee => employee.job)
+     employees:Employee[];
+
+    
 
 
 

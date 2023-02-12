@@ -1,13 +1,15 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository,InjectDataSource } from '@nestjs/typeorm';
 import { Http2ServerRequest } from 'http2';
+import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { createJobDto } from 'src/client/dtos/CreateJob.dto';
 import { City } from 'src/typeorm/entities/Cities';
 import { Client } from 'src/typeorm/entities/Client';
+import { Employee } from 'src/typeorm/entities/Employee';
 import { Job } from 'src/typeorm/entities/Job';
 import { Skill } from 'src/typeorm/entities/Skills';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 
 @Injectable()
 export class JobsService {
@@ -15,7 +17,9 @@ export class JobsService {
 
 
     constructor(@InjectRepository(Job) private jobsRepository:Repository<Job> ,@InjectRepository(City) private cityRepository:Repository<City>,
-    @InjectRepository(Skill) private skillRepository:Repository<Skill>,@InjectRepository(Client) private clientRepository:Repository<Client>
+    @InjectRepository(Skill) private skillRepository:Repository<Skill>,@InjectRepository(Client) private clientRepository:Repository<Client>,
+    @InjectRepository(Employee) private employeeRepository:Repository<Employee>,
+   
     ){
        
     }
@@ -38,25 +42,11 @@ export class JobsService {
        job.workfromhome=createJobDto.workfromhome;
        job.openings=createJobDto.openings;
        job.stipendtype=createJobDto.stipendtype;
-     
-   
-
        job.client=foundClient;
        job.cities=createJobDto.cities;
        job.skills=createJobDto.skills;
-
-
-      
-
-   
-
-        
   
-
-   
-       
-
-        return this.jobsRepository.save(job)
+       return this.jobsRepository.save(job)
 
     
     }
@@ -73,13 +63,17 @@ export class JobsService {
 
 
     async findAllJobs () {
-      let foundPosting=await this.jobsRepository.find(
-        {relations:{
+   
+      let foundPosting=await this.jobsRepository.find({  
+           relations:{
           cities:true,
           skills:true,
           client:true,
-       }}
+          employees:true
+              }}
       )
       return foundPosting;
     }
+
+
 }

@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { createJobDto } from 'src/client/dtos/CreateJob.dto';
 import { JobsService } from 'src/jobs/service/jobs/jobs.service';
 
@@ -37,5 +38,9 @@ export class JobsController {
      async getAllJobs () {
         return this.jobsService.findAllJobs()
     }
+    
+
+
+   
 }
 

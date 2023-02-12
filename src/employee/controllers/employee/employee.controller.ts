@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpException, Post,Query } from '@nestjs/common';
+import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
@@ -81,6 +82,36 @@ export class EmployeeController {
       }
 
    
+    }
+
+
+    @Post("/apply")
+
+    async employee(@Body() applyJobDto:applyJobDto) {
+      try {
+     const res=  await  this.employeeService.applyJob(applyJobDto);
+
+     return {
+      message:"Successfully applied to job"
+     }
+      }
+      catch(err) {
+        throw new HttpException(err.message,err.status)
+      }
+    }
+
+
+    @Get("/findAppliedJobs")
+
+    async getAppliedJobs(@Query("employeeId")  employeeId:number ){
+      try {
+        const res=  await  this.employeeService.findAppliedJobs(employeeId);
+   
+       return res
+         }
+         catch(err) {
+           throw new HttpException(err.message,err.status)
+         }
     }
 
 
