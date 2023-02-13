@@ -68,8 +68,20 @@ export class ClientController {
       catch(err){
         throw new HttpException(err.message,err.status)
       }
-
    
+    }
+
+
+    @Get("/postedJobs")
+
+    async getPostedJobs (@Query("id") id:number ) {
+      try {
+         const res=this.clientService.findJobs(id);
+         return res;
+      }
+      catch(err) {
+        throw new HttpException(err.message,err.status)
+      }
     }
 
 

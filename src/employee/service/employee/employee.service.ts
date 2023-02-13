@@ -169,7 +169,13 @@ export class EmployeeService {
            id:employeeId
         },
         relations:{
-            job:true
+            job:{
+                skills:true,
+                cities:true,
+                
+            },
+        
+            
         }
     })
 

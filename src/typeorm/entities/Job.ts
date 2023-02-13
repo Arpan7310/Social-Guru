@@ -55,8 +55,7 @@ export class Job {
 
 
 
-     @ManyToOne(()=>Client,client=>client.id)
-     @JoinColumn()
+     @ManyToOne(()=>Client,client=>client.job)
      client:Client
 
 

@@ -118,6 +118,28 @@ export class ClientService {
  }
 
 
+ async findJobs(clientId:number) {
+  let foundClient=await this.clientRepository.findOne(
+    {where:{id:clientId},
+      relations:{
+        job:{
+          skills:true,
+          cities:true,
+          employees:true
+        }
+
+      }
+  })
+ 
+  if(!foundClient){
+    throw new HttpException("Client not found",400);
+  }
+  let createdJobs =foundClient.job;
+
+  return createdJobs
+ }
+
+
 
 
 

@@ -76,4 +76,46 @@ export class JobsService {
     }
 
 
+    async findJob(clientId:number) {
+
+ 
+      const res=this.jobsRepository.findOne({
+        where:{
+        client:{
+          id:clientId
+        }
+      }
+      })
+    }
+
+
+    async applyToJob(hireJobParams:applyJobDto) {
+     
+      let foundJob=await this.jobsRepository.findOne({
+        where:{
+          id:hireJobParams.jobId
+          },
+          
+        })
+
+        let foundEmployee=await this.employeeRepository.findOne({
+          where:{
+            id:hireJobParams.employeeId
+          }
+        })
+
+
+        if(foundJob.openings==0) {
+          throw new HttpException("All positions have been filled",400)
+        }
+        foundJob.openings=foundJob.openings-1;
+      
+        await this.jobsRepository.save(foundJob);
+        await  this.employeeRepository.save(foundEmployee);
+
+
+
+    }
+
+
 }
