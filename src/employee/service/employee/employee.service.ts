@@ -126,11 +126,21 @@ export class EmployeeService {
 
   
      async applyJob (applyJobDto:applyJobDto){
+
+
+
+        let res=await this.dataSource.query("Select * from EmployeeJob where jobId=? and employeeId=?",[applyJobDto.jobId,applyJobDto.employeeId]);
+        if(res.length>0){
+            throw new HttpException("Already applied to this job",500);
+        }
         let foundJob=await this.jobRepository.findOne({
             where:{
                id:applyJobDto.jobId
             }
         })
+
+
+
 
         if(!foundJob){
             throw new HttpException("Job not found",400)
