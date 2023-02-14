@@ -129,7 +129,7 @@ export class EmployeeService {
 
 
 
-        let res=await this.dataSource.query("Select * from EmployeeJob where jobId=? and employeeId=?",[applyJobDto.jobId,applyJobDto.employeeId]);
+        let res=await this.dataSource.query("Select * from EmployeeJob where jobId=? and employeeId=? ",[applyJobDto.jobId,applyJobDto.employeeId]);
         if(res.length>0){
             throw new HttpException("Already applied to this job",500);
         }

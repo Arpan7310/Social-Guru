@@ -1,6 +1,7 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { InjectRepository,InjectDataSource } from '@nestjs/typeorm';
+
 import { Http2ServerRequest } from 'http2';
 import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { createJobDto } from 'src/client/dtos/CreateJob.dto';
@@ -20,7 +21,7 @@ export class JobsService {
     constructor(@InjectRepository(Job) private jobsRepository:Repository<Job> ,@InjectRepository(City) private cityRepository:Repository<City>,
     @InjectRepository(Skill) private skillRepository:Repository<Skill>,@InjectRepository(Client) private clientRepository:Repository<Client>,
     @InjectRepository(Employee) private employeeRepository:Repository<Employee>,
-    @InjectRepository(EmployeeJobHire) private empJobHire:Repository<EmployeeJobHire>,
+    @InjectRepository(EmployeeJobHire) private empJobHireRepository:Repository<EmployeeJobHire>,
     @InjectDataSource() private dataSource:DataSource
      ){
        
@@ -89,12 +90,19 @@ export class JobsService {
     if(!foundEmp) {
       throw new HttpException("Employee not found",400)
     }
+ 
+
+
+   
+
 
     let foundJob=await this.jobsRepository.findOne({
       where:{
         id:applyJobDto.jobId
       }
     })
+
+
 
      if(!foundJob) {
       throw new HttpException("Opportunity not found",400)
@@ -103,25 +111,19 @@ export class JobsService {
     if(foundJob.openings>0){
     foundJob.openings=foundJob.openings-1;
 
-      let foundEmpJobHire=await this.empJobHire.findOne({
-        where:{
-          employee:foundEmp,
-          job:foundJob
-        }
-      })
-
-      if(!foundEmpJobHire){
+    const foundEmpJobHire=await this.dataSource.query("Select * from EmployeeJob where jobId=? and employeeId=?",[applyJobDto.jobId,applyJobDto.employeeId]);
+ 
+    if(foundEmpJobHire.length===0){
         throw new HttpException("Employee has not applied to this job yet",500)
       }
 
-      if(foundEmpJobHire.hired){
+      if(foundEmpJobHire[0].hired){
         throw new HttpException("Employee already hired",500)
       }
     
-   
-      foundEmpJobHire.hired=true;
+       foundEmpJobHire[0].hired=true;
       
-    return this.empJobHire.save(foundEmpJobHire);
+    return this.empJobHireRepository.save(foundEmpJobHire[0]);
     }
     else {
       throw new HttpException("No openings are present",500)
