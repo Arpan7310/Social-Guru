@@ -109,8 +109,18 @@ export class JobsService {
           job:foundJob
         }
       })
+
+      if(!foundEmpJobHire){
+        throw new HttpException("Employee has not applied to this job yet",500)
+      }
+
+      if(foundEmpJobHire.hired){
+        throw new HttpException("Employee already hired",500)
+      }
+    
    
       foundEmpJobHire.hired=true;
+      
     return this.empJobHire.save(foundEmpJobHire);
     }
     else {
