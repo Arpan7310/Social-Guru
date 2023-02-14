@@ -7,9 +7,10 @@ import { createJobDto } from 'src/client/dtos/CreateJob.dto';
 import { City } from 'src/typeorm/entities/Cities';
 import { Client } from 'src/typeorm/entities/Client';
 import { Employee } from 'src/typeorm/entities/Employee';
+import { EmployeeJobHire } from 'src/typeorm/entities/EmployeeJob';
 import { Job } from 'src/typeorm/entities/Job';
 import { Skill } from 'src/typeorm/entities/Skills';
-import { Not, Repository } from 'typeorm';
+import { Not, Repository,DataSource } from 'typeorm';
 
 @Injectable()
 export class JobsService {
@@ -19,8 +20,9 @@ export class JobsService {
     constructor(@InjectRepository(Job) private jobsRepository:Repository<Job> ,@InjectRepository(City) private cityRepository:Repository<City>,
     @InjectRepository(Skill) private skillRepository:Repository<Skill>,@InjectRepository(Client) private clientRepository:Repository<Client>,
     @InjectRepository(Employee) private employeeRepository:Repository<Employee>,
-   
-    ){
+    @InjectRepository(EmployeeJobHire) private empJobHire:Repository<EmployeeJobHire>,
+    @InjectDataSource() private dataSource:DataSource
+     ){
        
     }
 
@@ -69,52 +71,60 @@ export class JobsService {
           cities:true,
           skills:true,
           client:true,
-          employees:true
+        
               }}
       )
       return foundPosting;
     }
 
-
-    async findJob(clientId:number) {
-
- 
-      const res=this.jobsRepository.findOne({
-        where:{
-        client:{
-          id:clientId
-        }
+   
+    async hireEmployee(applyJobDto:applyJobDto) {
+     
+    let foundEmp= await  this.employeeRepository.findOne({
+      where:{
+        id:applyJobDto.employeeId
       }
+     })
+
+    if(!foundEmp) {
+      throw new HttpException("Employee not found",400)
+    }
+
+    let foundJob=await this.jobsRepository.findOne({
+      where:{
+        id:applyJobDto.jobId
+      }
+    })
+
+     if(!foundJob) {
+      throw new HttpException("Opportunity not found",400)
+    }
+
+    if(foundJob.openings>0){
+    foundJob.openings=foundJob.openings-1;
+
+      let foundEmpJobHire=await this.empJobHire.findOne({
+        where:{
+          employee:foundEmp,
+          job:foundJob
+        }
       })
+   
+      foundEmpJobHire.hired=true;
+    return this.empJobHire.save(foundEmpJobHire);
+    }
+    else {
+      throw new HttpException("No openings are present",500)
+    }
     }
 
 
-    async applyToJob(hireJobParams:applyJobDto) {
-     
-      let foundJob=await this.jobsRepository.findOne({
-        where:{
-          id:hireJobParams.jobId
-          },
-          
-        })
-
-        let foundEmployee=await this.employeeRepository.findOne({
-          where:{
-            id:hireJobParams.employeeId
-          }
-        })
+  
+    async findEmployees (jobId:number) {
 
 
-        if(foundJob.openings==0) {
-          throw new HttpException("All positions have been filled",400)
-        }
-        foundJob.openings=foundJob.openings-1;
-      
-        await this.jobsRepository.save(foundJob);
-        await  this.employeeRepository.save(foundEmployee);
-
-
-
+      const res= await this.dataSource.query("Select * from employee left join  EmployeeJob on employee.id=EmployeeJob.employeeId where jobId=?",[jobId]);
+      return res;
     }
 
 

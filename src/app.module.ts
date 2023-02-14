@@ -13,6 +13,7 @@ import { City } from './typeorm/entities/Cities';
 import { Job } from './typeorm/entities/Job';
 import { Skill } from './typeorm/entities/Skills';
 import { JobsModule } from './jobs/jobs.module';
+import { EmployeeJobHire } from './typeorm/entities/EmployeeJob';
 
 
 @Module({
@@ -33,7 +34,7 @@ import { JobsModule } from './jobs/jobs.module';
     username:process.env.db_username,
     password:process.env.db_password,
     database:process.env.db_name,
-    entities:[Client,Employee,City,Job,Skill],
+    entities:[Client,Employee,City,Job,Skill,EmployeeJobHire],
     synchronize:true
   }), 
 

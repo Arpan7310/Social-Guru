@@ -31,9 +31,9 @@ export class Employee {
     @Column()
     otp:string
 
-    @ManyToMany(()=>Job,job=>job.employees)
-    @JoinTable()
-    job:Job[];
+
+
+    
 
 
 }

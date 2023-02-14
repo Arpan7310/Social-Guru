@@ -59,8 +59,7 @@ export class Job {
      client:Client
 
 
-     @ManyToMany(()=>Employee,employee => employee.job)
-     employees:Employee[];
+    
 
     
 

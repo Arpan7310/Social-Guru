@@ -106,8 +106,7 @@ export class EmployeeController {
     async getAppliedJobs(@Query("employeeId")  employeeId:number ){
       try {
         const res=  await  this.employeeService.findAppliedJobs(employeeId);
-   
-       return res
+        return res;
          }
          catch(err) {
            throw new HttpException(err.message,err.status)

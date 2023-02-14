@@ -125,7 +125,7 @@ export class ClientService {
         job:{
           skills:true,
           cities:true,
-          employees:true
+         
         }
 
       }
