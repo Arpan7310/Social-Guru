@@ -48,6 +48,8 @@ export class JobsService {
        job.client=foundClient;
        job.cities=createJobDto.cities;
        job.skills=createJobDto.skills;
+       job.startDate=createJobDto.startDate;
+       job.endDate=createJobDto.endDate;
   
        return this.jobsRepository.save(job)
 

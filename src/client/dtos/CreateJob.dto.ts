@@ -18,6 +18,8 @@ export class createJobDto {
     stipendamountmin:number;
     stipendamountmax:number;
     clientId:number;
+    startDate:Date;
+    endDate:Date;
 
     
 }

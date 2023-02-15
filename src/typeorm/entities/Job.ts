@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import  {City} from './Cities'
 import { Client } from "./Client";
 import { Employee } from "./Employee";
@@ -59,10 +59,14 @@ export class Job {
      client:Client
 
 
-    
+     @CreateDateColumn({
+        type:'timestamp',
+      })
+      startDate:Date
 
-    
-
-
+     @CreateDateColumn({
+         type:'timestamp'
+      })
+     endDate:Date;
 
 }
