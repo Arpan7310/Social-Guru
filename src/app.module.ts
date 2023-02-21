@@ -14,6 +14,8 @@ import { Job } from './typeorm/entities/Job';
 import { Skill } from './typeorm/entities/Skills';
 import { JobsModule } from './jobs/jobs.module';
 import { EmployeeJobHire } from './typeorm/entities/EmployeeJob';
+import { Chat } from './typeorm/entities/Chat';
+import { ChatsModule } from './chats/chats.module';
 
 
 @Module({
@@ -34,12 +36,12 @@ import { EmployeeJobHire } from './typeorm/entities/EmployeeJob';
     username:process.env.db_username,
     password:process.env.db_password,
     database:process.env.db_name,
-    entities:[Client,Employee,City,Job,Skill,EmployeeJobHire],
+    entities:[Client,Employee,City,Job,Skill,EmployeeJobHire,Chat],
     synchronize:true
   }), 
 
  
-  ClientModule, EmployeeModule, JobsModule,
+  ClientModule, EmployeeModule, JobsModule,ChatsModule
 
   ],
   controllers: [AppController],

@@ -37,7 +37,6 @@ export class Client {
     isVerified:boolean
 
     @OneToMany(()=>Job,job=>job.client)
-    
     job:Job[]
 
 }

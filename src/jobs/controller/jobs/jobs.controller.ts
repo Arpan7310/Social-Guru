@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpException, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post, Query, Req } from '@nestjs/common';
 import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { createJobDto } from 'src/client/dtos/CreateJob.dto';
 import { JobsService } from 'src/jobs/service/jobs/jobs.service';
-
+import { Request } from '@nestjs/common';
+import { url } from 'inspector';
 @Controller('jobs')
 export class JobsController {
 
@@ -35,7 +36,8 @@ export class JobsController {
 
 
     @Get("/findAll")
-     async getAllJobs () {
+     async getAllJobs (@Req() req:Request) {
+       
         return this.jobsService.findAllJobs()
     }
 
