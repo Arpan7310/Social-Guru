@@ -29,7 +29,7 @@ export class ChatsService {
 
           let foundEmployee=await this.employeeRepository.findOne({
             where:{
-                id:chatBody.clientId
+                id:chatBody.employeeId
             }
           })
 

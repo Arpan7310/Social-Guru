@@ -29,9 +29,9 @@ export class  ChatGateWay  implements OnModuleInit{
     
     @SubscribeMessage('newMessage')   
      async onNewMessage (@MessageBody() body:ChatDto) {
-     console.log(body);
+     
      try {
-      
+      console.log(body);
         await this.chatservice.saveChat(body)
       
        this.server.to(body.roomId).emit('onMessage',{
