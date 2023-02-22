@@ -9,7 +9,7 @@ import { throwIfEmpty } from 'rxjs';
 import { ChatDto } from 'src/client/dtos/ChatDto.dto';
 
 
-@WebSocketGateway(4001,{cors:true})
+@WebSocketGateway(4001)
 export class  ChatGateWay  implements OnModuleInit{
   
   constructor(private chatservice:ChatsService){
