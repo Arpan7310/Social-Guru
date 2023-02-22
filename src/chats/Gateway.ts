@@ -9,7 +9,7 @@ import { throwIfEmpty } from 'rxjs';
 import { ChatDto } from 'src/client/dtos/ChatDto.dto';
 
 
-@WebSocketGateway(4001)
+@WebSocketGateway(4001,{cors:true})
 export class  ChatGateWay  implements OnModuleInit{
   
   constructor(private chatservice:ChatsService){
@@ -34,7 +34,7 @@ export class  ChatGateWay  implements OnModuleInit{
       
         await this.chatservice.saveChat(body)
       
-       this.server.to(body.roomId.toString()).emit('onMessage',{
+       this.server.to(body.roomId).emit('onMessage',{
          msg:'New Message',
          content:body
         })

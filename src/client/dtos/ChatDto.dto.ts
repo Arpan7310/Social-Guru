@@ -5,7 +5,7 @@ export class ChatDto {
     employeeId:number
     clientId:number
     message:string
-    roomId:number
+    roomId:string
     timestamp:Date
 }
 
