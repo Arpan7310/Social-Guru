@@ -34,14 +34,12 @@ export class  ChatGateWay  implements OnModuleInit{
       console.log(body);
         await this.chatservice.saveChat(body)
       
-        
-       this.server.in(body.roomId).emit('onMessage',{
+       this.server.socketsJoin(body.roomId)
+       this.server.to(body.roomId).emit('newMessage',{
          msg:'New Message',
          content:body
         })
-        
-
-      }
+           }
       catch(err) {
         throw new HttpException(err.message,err.status)
       }
