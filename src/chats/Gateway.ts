@@ -34,7 +34,8 @@ export class  ChatGateWay  implements OnModuleInit{
       console.log(body);
         await this.chatservice.saveChat(body)
       
-       this.server.to(body.roomId).emit('onMessage',{
+        
+       this.server.in(body.roomId).emit('onMessage',{
          msg:'New Message',
          content:body
         })
