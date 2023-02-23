@@ -1,7 +1,7 @@
 import { HttpException, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer} from '@nestjs/websockets'
-import {Server} from 'socket.io';
+import {Server,Socket} from 'socket.io';
 import { Repository } from 'typeorm';
 import { Chat } from 'src/typeorm/entities/Chat';
 import { ChatsService } from './services/chats/chats.service';
@@ -13,12 +13,12 @@ import { ChatDto } from 'src/client/dtos/ChatDto.dto';
 export class  ChatGateWay  implements OnModuleInit{
   
   constructor(private chatservice:ChatsService){
-    
+  
   }
 
    onModuleInit() {
        this.server.on('connection',(socket)=>{
-       console.log(socket.id) ;
+       console.log(socket.id);
        })
    }
   
@@ -32,10 +32,8 @@ export class  ChatGateWay  implements OnModuleInit{
      
      try {
       console.log(body);
-        await this.chatservice.saveChat(body)
-      
-       this.server.socketsJoin(body.roomId)
-       this.server.to(body.roomId).emit('newMessage',{
+       await this.chatservice.saveChat(body)
+        this.server.to(body.roomId).emit('newMessage',{
          msg:'New Message',
          content:body
         })
@@ -45,5 +43,16 @@ export class  ChatGateWay  implements OnModuleInit{
       }
         
   }
+
+   @SubscribeMessage("joinRoom")
+   async joinRoom (client:Socket,room:string) {
+     client.join(room)
+   }
+
+   @SubscribeMessage('leaveRoom')
+    async leaveRoom (client:Socket,room:string) {
+    client.leave(room)
+   }
+
     
 }
