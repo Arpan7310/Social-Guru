@@ -27,7 +27,8 @@ export class Chat {
     timestamp:Date
 
     
-    
+    @Column()
+    sender:number
 
 
 }
