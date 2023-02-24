@@ -1,5 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { from } from 'rxjs';
 import { ChatDto } from 'src/client/dtos/ChatDto.dto';
 import { Chat } from 'src/typeorm/entities/Chat';
 import { Client } from 'src/typeorm/entities/Client';
@@ -18,33 +19,11 @@ export class ChatsService {
 
 
         let chat=new Chat();
-          let foundClient=await this.clientRepository.findOne({
-            where:{
-                id:chatBody.clientId
-            }
-          })
-          if(!foundClient) {
-            throw new HttpException("Client not found",400)
-          }
-
-          let foundEmployee=await this.employeeRepository.findOne({
-            where:{
-                id:chatBody.employeeId
-            }
-          })
-
-          if(!foundEmployee) {
-            throw new HttpException("Employee not found",400)
-          }
-
-          chat.client=foundClient;
-          chat.employee=foundEmployee;
+          chat.from=chatBody.from;
+          chat.to=chatBody.to;
           chat.message=chatBody.message;
           chat.timestamp=chatBody.timestamp;
-          chat.sender=chatBody.sender
-          
- 
-          return this.chatRepository.save(chat)
+           return this.chatRepository.save(chat)
     }
 
 

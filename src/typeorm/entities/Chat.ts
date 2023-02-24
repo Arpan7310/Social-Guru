@@ -11,11 +11,11 @@ export class Chat {
     @PrimaryGeneratedColumn()
     id:number;
 
-    @ManyToOne(()=>Client,client=>client.id)
-    client:Client
+    @Column()
+    from:number
 
-    @ManyToOne(()=>Employee,employee=>employee.id)
-    employee:Employee
+    @Column()
+    to:number
 
     @Column()
     message:string
@@ -27,8 +27,7 @@ export class Chat {
     timestamp:Date
 
     
-    @Column()
-    sender:number
+    
 
 
 }
