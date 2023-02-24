@@ -7,6 +7,7 @@ export class ChatDto {
     message:string
     roomId:string
     timestamp:Date
+    sender:number
 }
 
 

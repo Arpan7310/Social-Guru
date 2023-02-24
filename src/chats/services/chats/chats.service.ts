@@ -41,8 +41,10 @@ export class ChatsService {
           chat.employee=foundEmployee;
           chat.message=chatBody.message;
           chat.timestamp=chatBody.timestamp;
+          chat.sender=chatBody.sender
           
-  return this.chatRepository.save(chat)
+ 
+          return this.chatRepository.save(chat)
     }
 
 
