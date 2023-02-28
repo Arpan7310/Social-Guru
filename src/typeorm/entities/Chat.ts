@@ -11,11 +11,11 @@ export class Chat {
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
-    from:number
+    @Column({name:"sender"})
+    sender:number
 
-    @Column()
-    to:number
+    @Column({name:"receiver"})
+    receiver:number
 
     @Column()
     message:string

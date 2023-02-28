@@ -2,8 +2,8 @@ import { IoAdapter } from "@nestjs/platform-socket.io"
 
 export class ChatDto {
     
-    from:number
-    to:number
+    sender:number
+    receiver:number
     message:string
     roomId:string
     timestamp:Date
