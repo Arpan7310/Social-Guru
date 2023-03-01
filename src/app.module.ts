@@ -16,6 +16,8 @@ import { JobsModule } from './jobs/jobs.module';
 import { EmployeeJobHire } from './typeorm/entities/EmployeeJob';
 import { Chat } from './typeorm/entities/Chat';
 import { ChatsModule } from './chats/chats.module';
+import { AuthModule } from './auth/auth.module';
+
 
 
 @Module({
@@ -41,7 +43,7 @@ import { ChatsModule } from './chats/chats.module';
   }), 
 
  
-  ClientModule, EmployeeModule, JobsModule,ChatsModule
+  ClientModule, EmployeeModule, JobsModule,ChatsModule,AuthModule
 
   ],
   controllers: [AppController],

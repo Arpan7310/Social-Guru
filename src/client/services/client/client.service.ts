@@ -113,7 +113,7 @@ export class ClientService {
   if(!foundClient){
     throw new HttpException("Client not found",400)
   }
-  delete foundClient["password"]
+ 
   return foundClient;
  }
 

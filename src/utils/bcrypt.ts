@@ -8,6 +8,6 @@ export async function encodePassword(rawPassword:string) {
 
 
 export async function isMatch(hash:string,password:string) {
- 
+  
      return bcrypt.compare(password,hash); 
 }
