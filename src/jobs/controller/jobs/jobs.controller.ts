@@ -1,10 +1,13 @@
-import { Body, Controller, Get, HttpException, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { createJobDto } from 'src/client/dtos/CreateJob.dto';
 import { JobsService } from 'src/jobs/service/jobs/jobs.service';
 import { Request } from '@nestjs/common';
 import { url } from 'inspector';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
 @Controller('jobs')
+
 export class JobsController {
 
 
@@ -34,7 +37,7 @@ export class JobsController {
         return res
     }
 
-
+   
     @Get("/findAll")
      async getAllJobs (@Req() req:Request) {
        

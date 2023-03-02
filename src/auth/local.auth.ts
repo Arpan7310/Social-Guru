@@ -13,13 +13,15 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         super({
             usernameField: 'email',
             passwordField: 'password',
+            passReqToCallback: true,
           });
     }
 
 
-    async validate (email:string,password:string) {
-       
-      let foundClient= await  this.authService.validateUser(email,password)
+    async validate (req:any,email:string,password:string) {
+
+        
+      let foundClient= await  this.authService.validateUser(email,password,req)
     
       if(!foundClient) {
         throw new UnauthorizedException();

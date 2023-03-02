@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ClientModule } from 'src/client/client.module';
 
 
+
 @Module({
   providers: [AuthService,ClientService,LocalStrategy],
   imports:[TypeOrmModule.forFeature([Client]),ClientModule,
