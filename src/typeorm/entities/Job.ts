@@ -69,4 +69,28 @@ export class Job {
       })
      endDate:Date;
 
+     @Column()
+     travel:string
+
+     @Column()
+     language:string
+
+     @Column()
+     nature:string
+
+     @Column()
+     typeofwork:string
+
+
+
+
+
+
+
+     
+
+
+
+
+
 }
