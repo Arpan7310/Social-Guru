@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EducationalProfile } from "./EducationalProfile";
 
 
@@ -45,6 +45,11 @@ export class AcademicCerficate {
 
     @ManyToOne(()=>EducationalProfile,educationProfile=>educationProfile.academicCertificate)
     educationalProfile:EducationalProfile
+
+
+
+
+
 
   
 
