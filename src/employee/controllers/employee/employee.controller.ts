@@ -1,7 +1,10 @@
 import { Body, Controller, Get, HttpException, Post,Query } from '@nestjs/common';
+import { AcademicProfileDto } from 'src/client/dtos/AcademicProfileDto.dto';
 import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
+import { CertificationsDto } from 'src/client/dtos/CeritificateDto.dto';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
+import { EmployeeBasicProfileDto } from 'src/client/dtos/EmployeeBasicProfile.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { EmployeeService } from 'src/employee/service/employee/employee.service';
 
@@ -115,11 +118,48 @@ export class EmployeeController {
 
 
 
+    @Post("/saveProfile")
+    async createProfile (@Body() createProfileDto:EmployeeBasicProfileDto ) {
+      try {
+        return this.employeeService.createProfile(createProfileDto);
+      }
+      catch (err){
+        throw new HttpException(err.message,err.status)
+      }
+    }
+
+
+    @Post("/saveAcademicProfile")
+    async saveAcademicProfile (@Body() academicProfile:AcademicProfileDto) {
+
+      try {
+         return this.employeeService.createAcademicProfile(academicProfile);
+      }
+      catch(err) {
+        throw new HttpException(err.message,err.status)
+      }
+    }
 
 
 
+    @Post("/saveCertification")
+
+    async saveCertifications(@Body() certificationsBody:CertificationsDto) {
+   
+      try {
+         return this.employeeService.createCertificate(certificationsBody)
+        
+      }
+      catch (err) {
+            throw new HttpException(err.message,err.status)
+      }
+    }
 
 
+
+   
+   
+    
 
 
 }

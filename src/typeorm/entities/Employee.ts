@@ -1,5 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable,CreateDateColumn,OneToMany} from "typeorm";
+import { AcademicCerficate } from "./AcademicCertificate";
 import { Job } from "./Job";
+import { ProfessionalCerficate } from "./ProfessionalCertificates";
+import { Publications } from "./Publications";
 
 
 
@@ -31,7 +34,57 @@ export class Employee {
     @Column()
     otp:string
 
+    @CreateDateColumn({
+        type:'timestamp'
+    })
+    dob:Date
 
+
+    @Column()
+    gender:string
+    
+    @Column()
+    disability:boolean
+
+    @Column()
+    martialStatus:string
+
+
+    @Column()
+    linkedinlink:string
+
+
+    @Column()
+    pan:string
+
+    @Column()
+    gst:string
+
+    @Column()
+    idproof:string
+
+
+    @Column()
+    languageProficieny:string
+
+
+    @Column()
+    languageProficiencylevel:string
+
+
+
+
+
+    @OneToMany(()=>Publications,(publications)=>publications.employee)
+    publications:Publications[]
+
+
+    @OneToMany(()=>ProfessionalCerficate,(professionalCertificate)=>professionalCertificate.employee)
+    professionalCertificates:ProfessionalCerficate[];
+
+
+    @OneToMany(()=>AcademicCerficate,(academicCertificate)=>academicCertificate.employee)
+    academicCertificate:AcademicCerficate[];
 
     
 

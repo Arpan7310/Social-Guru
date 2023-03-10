@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, EntityMetadata, JoinTable, ManyToMany, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Author } from "./Authors";
-import { EducationalProfile } from "./EducationalProfile";
+import { Employee } from "./Employee";
 
 
 @Entity({name:'publications'})
@@ -31,9 +31,8 @@ export class Publications {
     book:string
 
 
-    @ManyToOne(()=>EducationalProfile,educationalProfile=>educationalProfile.publications)
-    educationalProfile:EducationalProfile
-  
+    @ManyToOne(()=>Employee,employee=>employee.publications)
+    employee:Employee
 
 
 }

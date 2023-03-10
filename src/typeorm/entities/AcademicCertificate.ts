@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { EducationalProfile } from "./EducationalProfile";
+import { Employee } from "./Employee";
 
 
 
@@ -43,8 +43,8 @@ export class AcademicCerficate {
     percentage:number
 
 
-    @ManyToOne(()=>EducationalProfile,educationProfile=>educationProfile.academicCertificate)
-    educationalProfile:EducationalProfile
+    @ManyToOne(()=>Employee,employee=>employee.academicCertificate)
+    employee:Employee
 
 
 

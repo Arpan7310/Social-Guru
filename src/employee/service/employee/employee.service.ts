@@ -12,13 +12,25 @@ import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { Job } from 'src/typeorm/entities/Job';
 import { EmployeeJobHire } from 'src/typeorm/entities/EmployeeJob';
 
+import { EmployeeBasicProfileDto } from 'src/client/dtos/EmployeeBasicProfile.dto';
+import { AcademicProfileDto } from 'src/client/dtos/AcademicProfileDto.dto';
+import { AcademicCerficate } from 'src/typeorm/entities/AcademicCertificate';
+import { CreateClientDto } from 'src/client/dtos/CreateClient.dto';
+import { CertificationsDto } from 'src/client/dtos/CeritificateDto.dto';
+import { ProfessionalCerficate } from 'src/typeorm/entities/ProfessionalCertificates';
+import { Certificate } from 'crypto';
+
+
 @Injectable()
 export class EmployeeService {
 
     constructor(@InjectRepository(Employee) private employeeRepository: Repository<Employee>, private mailService: MailerService,
      @InjectRepository(Job) private jobRepository:Repository<Job>,
      @InjectRepository(EmployeeJobHire) private empjobHireRepository:Repository<EmployeeJobHire>,
-      @InjectDataSource() private dataSource:DataSource
+     @InjectDataSource() private dataSource:DataSource,
+     @InjectRepository(AcademicCerficate) private academicCertificate:Repository<AcademicCerficate>,
+     @InjectRepository(ProfessionalCerficate) private professionalCertificate:Repository<ProfessionalCerficate>
+
     ) {
      
     }
@@ -168,6 +180,80 @@ export class EmployeeService {
        return res
      }
 
+
+     async createProfile (createProfileDto:EmployeeBasicProfileDto) {
+        
+        let employeeProfile= new Employee();
+        employeeProfile.disability=createProfileDto.disablility;
+        employeeProfile.dob=createProfileDto.dob;
+        employeeProfile.gender=createProfileDto.gender;
+        employeeProfile.gst=createProfileDto.gst;
+        employeeProfile.idproof=createProfileDto.idproof;
+        employeeProfile.languageProficiencylevel=createProfileDto.languageproficiencyLevel;
+        employeeProfile.languageProficieny=createProfileDto.languageproficiency;
+        employeeProfile.pan=createProfileDto.pan;
+        employeeProfile.linkedinlink=createProfileDto.linkedinlink;
+        employeeProfile.martialStatus=createProfileDto.martialStatus;
+        employeeProfile.idproof=createProfileDto.idproof;
+        return   this.employeeRepository.save(employeeProfile); 
+        
+        
+     }
+
+
+     async createAcademicProfile  (createAcademicProfileDto:AcademicProfileDto) {
+        let academicProfile= new AcademicCerficate();
+        let employee= await this.employeeRepository.findOne({
+            where:{
+              id:createAcademicProfileDto.employeeId  
+            }
+        })
+
+        if(!employee){
+            throw new HttpException("Employee not found",400)
+        }
+        academicProfile.course=createAcademicProfileDto.course;
+        academicProfile.courseend=createAcademicProfileDto.courseend;
+        academicProfile.coursestart=createAcademicProfileDto.coursestart;
+        academicProfile.educationalQualification=createAcademicProfileDto.educationalQualification;
+        academicProfile.percentage=createAcademicProfileDto.percentage;
+        academicProfile.specialisation=createAcademicProfileDto.specialisation;
+        academicProfile.institute=createAcademicProfileDto.institute;
+        academicProfile.employee=employee
+        return this.academicCertificate.save(academicProfile);
+
+     }
+
+     async createCertificate (createCertificate:CertificationsDto) {
+
+        let foundEmployee= await this.employeeRepository.findOne({
+            where:{
+                id:createCertificate.empId
+            }
+        })
+
+
+        if(!foundEmployee){
+            throw new HttpException("Emloyee Not found",400)
+        }
+
+        let certificate = new ProfessionalCerficate();
+      
+        certificate.course=createCertificate.course;
+        certificate.grade=createCertificate.grade;
+        certificate.institute=createCertificate.institute;
+        certificate.startDate=createCertificate.startDate;
+        certificate.endDate=createCertificate.endDate;
+        certificate.employee=foundEmployee;
+
+        
+
+       return this.professionalCertificate.save(foundEmployee)
+
+     }
+
+
      
+    
 
 }

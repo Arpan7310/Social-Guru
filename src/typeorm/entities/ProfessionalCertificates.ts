@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { EducationalProfile } from "./EducationalProfile";
+import { Employee } from "./Employee";
 
 
 @Entity({name:"certificates"})
@@ -31,9 +31,9 @@ export class ProfessionalCerficate {
     endDate:Date
 
 
-    @ManyToOne(()=>EducationalProfile,(educationalProfile)=>educationalProfile.professionalCertificates)
-    educationalProfile:EducationalProfile
-
+    @ManyToOne(()=>Employee,(employee)=>employee.professionalCertificates)
+    employee:Employee
+    
 
 
 

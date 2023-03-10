@@ -17,6 +17,10 @@ import { EmployeeJobHire } from './typeorm/entities/EmployeeJob';
 import { Chat } from './typeorm/entities/Chat';
 import { ChatsModule } from './chats/chats.module';
 import { AuthModule } from './auth/auth.module';
+import { AcademicCerficate } from './typeorm/entities/AcademicCertificate';
+import { Publications } from './typeorm/entities/Publications';
+import { ProfessionalCerficate } from './typeorm/entities/ProfessionalCertificates';
+import { Author } from './typeorm/entities/Authors';
 
 
 
@@ -38,7 +42,7 @@ import { AuthModule } from './auth/auth.module';
     username:process.env.db_username,
     password:process.env.db_password,
     database:process.env.db_name,
-    entities:[Client,Employee,City,Job,Skill,EmployeeJobHire,Chat],
+    entities:[Client,Employee,City,Job,Skill,EmployeeJobHire,Chat,AcademicCerficate,Publications,ProfessionalCerficate,Author],
     synchronize:true
   }), 
 
