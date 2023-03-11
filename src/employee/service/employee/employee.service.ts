@@ -229,11 +229,22 @@ export class EmployeeService {
 
      }
 
-     async createCertificate (createCertificate:CertificationsDto) {
+     async createCertificate (certificationsDto:CertificationsDto) {
+
+        console.log(certificationsDto)
+  
+
+        let certificate = new ProfessionalCerficate();
+      
+        certificate.course=certificationsDto.course;
+        certificate.grade=certificationsDto.grade;
+        certificate.institute=certificationsDto.institute;
+        certificate.startDate=certificationsDto.startDate;
+        certificate.endDate=certificationsDto.endDate;
 
         let foundEmployee= await this.employeeRepository.findOne({
             where:{
-                id:createCertificate.empId
+                id:certificationsDto.empId
             }
         })
 
@@ -241,19 +252,11 @@ export class EmployeeService {
         if(!foundEmployee){
             throw new HttpException("Emloyee Not found",400)
         }
-
-        let certificate = new ProfessionalCerficate();
-      
-        certificate.course=createCertificate.course;
-        certificate.grade=createCertificate.grade;
-        certificate.institute=createCertificate.institute;
-        certificate.startDate=createCertificate.startDate;
-        certificate.endDate=createCertificate.endDate;
         certificate.employee=foundEmployee;
 
         
 
-       return this.professionalCertificate.save(foundEmployee);
+       return this.professionalCertificate.save(certificate);
 
      }
 
@@ -263,7 +266,7 @@ export class EmployeeService {
 
         
         let publications= new Publications();
-        let author= new Author();
+     
       
 
 
@@ -287,16 +290,16 @@ export class EmployeeService {
         publications.publishedat=publicationsDto.publishedat;
         publications.publisher=publicationsDto.publisher;
         publications.employee=employeeFound
+        publications.topic=publicationsDto.topic
 
         const savedData=  await this.publications.save(publications);
       
         
 
         publicationsDto.author.forEach( async el=>{
-
+        let author= new Author();
           author.author=el;
           author.publicationId=savedData.id
-            
           await this.authorRepository.save(author)
         })
 

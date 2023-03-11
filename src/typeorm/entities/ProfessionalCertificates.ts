@@ -9,14 +9,14 @@ export class ProfessionalCerficate {
     id:number
 
 
-    @Column()
+    @Column({nullable:true})
     course:string
 
-    @Column()
+    @Column({nullable:true})
     institute:string
 
 
-    @Column()
+    @Column({nullable:true})
     grade:number
 
 

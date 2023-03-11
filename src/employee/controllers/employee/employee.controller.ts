@@ -145,10 +145,10 @@ export class EmployeeController {
 
     @Post("/saveCertification")
 
-    async saveCertifications(@Body() certificationsBody:CertificationsDto) {
+    async saveCertifications(@Body() certificationsDto:CertificationsDto) {
    
       try {
-         return this.employeeService.createCertificate(certificationsBody)
+         return this.employeeService.createCertificate(certificationsDto)
         
       }
       catch (err) {
