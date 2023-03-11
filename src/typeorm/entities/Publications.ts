@@ -10,11 +10,7 @@ export class Publications {
     @PrimaryGeneratedColumn()
     id:number
 
-    @ManyToMany(()=>Author)
-    @JoinTable()
-    author:Author[];
-
-
+ 
     @CreateDateColumn({
         type:'timestamp'
     })

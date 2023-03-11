@@ -19,6 +19,9 @@ import { CreateClientDto } from 'src/client/dtos/CreateClient.dto';
 import { CertificationsDto } from 'src/client/dtos/CeritificateDto.dto';
 import { ProfessionalCerficate } from 'src/typeorm/entities/ProfessionalCertificates';
 import { Certificate } from 'crypto';
+import { Publications } from 'src/typeorm/entities/Publications';
+import { PublicationsDto } from 'src/client/dtos/PublicationsDto.dto';
+import { Author } from 'src/typeorm/entities/Authors';
 
 
 @Injectable()
@@ -29,7 +32,9 @@ export class EmployeeService {
      @InjectRepository(EmployeeJobHire) private empjobHireRepository:Repository<EmployeeJobHire>,
      @InjectDataSource() private dataSource:DataSource,
      @InjectRepository(AcademicCerficate) private academicCertificate:Repository<AcademicCerficate>,
-     @InjectRepository(ProfessionalCerficate) private professionalCertificate:Repository<ProfessionalCerficate>
+     @InjectRepository(Publications) private publications:Repository<Publications>,
+     @InjectRepository(ProfessionalCerficate) private professionalCertificate:Repository<ProfessionalCerficate>,
+     @InjectRepository(Author) private authorRepository:Repository<Author>
 
     ) {
      
@@ -248,7 +253,58 @@ export class EmployeeService {
 
         
 
-       return this.professionalCertificate.save(foundEmployee)
+       return this.professionalCertificate.save(foundEmployee);
+
+     }
+
+
+
+     async createPublications (publicationsDto:PublicationsDto) {
+
+        
+        let publications= new Publications();
+        let author= new Author();
+      
+
+
+
+        let employeeFound=await this.employeeRepository.findOne({
+       
+            where:{
+                id:publicationsDto.empId
+            }
+        })
+
+
+        if(!employeeFound) {
+            throw new HttpException("Employee not found",400)
+        }
+
+
+
+        
+        publications.book=publicationsDto.book;
+        publications.publishedat=publicationsDto.publishedat;
+        publications.publisher=publicationsDto.publisher;
+        publications.employee=employeeFound
+
+        const savedData=  await this.publications.save(publications);
+      
+        
+
+        publicationsDto.author.forEach( async el=>{
+
+          author.author=el;
+          author.publicationId=savedData.id
+            
+          await this.authorRepository.save(author)
+        })
+
+
+        return {
+            message :"data saved successfully"
+        }
+
 
      }
 

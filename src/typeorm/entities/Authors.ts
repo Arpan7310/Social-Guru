@@ -11,5 +11,9 @@ export class Author {
 
 
     @Column()
+    publicationId:number
+
+
+    @Column()
     author:string;
 }

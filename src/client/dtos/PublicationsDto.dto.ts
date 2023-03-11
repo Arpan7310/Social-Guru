@@ -6,7 +6,8 @@ export class PublicationsDto  {
     publisher:string
     topic:string
     book:string
-
+    empId:number
+  
 
    
 

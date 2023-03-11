@@ -5,6 +5,7 @@ import { CertificationsDto } from 'src/client/dtos/CeritificateDto.dto';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { CredentialsDto } from 'src/client/dtos/Credentials.dto';
 import { EmployeeBasicProfileDto } from 'src/client/dtos/EmployeeBasicProfile.dto';
+import { PublicationsDto } from 'src/client/dtos/PublicationsDto.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { EmployeeService } from 'src/employee/service/employee/employee.service';
 
@@ -152,6 +153,21 @@ export class EmployeeController {
       }
       catch (err) {
             throw new HttpException(err.message,err.status)
+      }
+    }
+
+
+
+    @Post ("/savePublications")
+
+    async createPublications(@Body() createPublication:PublicationsDto) {
+
+      try {
+
+        return this.employeeService.createPublications(createPublication)
+      }
+      catch(err) {
+        throw new HttpException(err.message,err.status)
       }
     }
 
