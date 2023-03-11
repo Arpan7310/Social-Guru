@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable,CreateDateColumn,OneToMany} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable,CreateDateColumn,OneToMany, IsNull} from "typeorm";
 import { AcademicCerficate } from "./AcademicCertificate";
 import { Job } from "./Job";
 import { ProfessionalCerficate } from "./ProfessionalCertificates";
@@ -36,39 +36,57 @@ export class Employee {
 
     @CreateDateColumn({
         type:'timestamp'
-    })
+       
+    }
+)
     dob:Date
 
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     gender:string
     
-    @Column()
+    @Column({
+        nullable:true
+    })
     disability:boolean
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     martialStatus:string
 
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     linkedinlink:string
 
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     pan:string
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     gst:string
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     idproof:string
 
 
-    @Column()
+    @Column({nullable:true})
     languageProficieny:string
 
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     languageProficiencylevel:string
 
 
