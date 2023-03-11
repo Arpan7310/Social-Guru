@@ -14,6 +14,7 @@ export class EmployeeBasicProfileDto {
     pan:string;
     gst:string;
     idproof:string;
+    empId:number
  
 
 

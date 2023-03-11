@@ -188,7 +188,21 @@ export class EmployeeService {
 
      async createProfile (createProfileDto:EmployeeBasicProfileDto) {
         
-        let employeeProfile= new Employee();
+        let employeeProfile= await this.employeeRepository.findOne({
+            where:{
+                id:createProfileDto.empId
+            }
+        })
+
+
+
+        if(!employeeProfile) {
+            throw new HttpException("Employee not found",400)
+        }
+
+
+
+
         employeeProfile.disability=createProfileDto.disablility;
         employeeProfile.dob=createProfileDto.dob;
         employeeProfile.gender=createProfileDto.gender;
@@ -267,10 +281,6 @@ export class EmployeeService {
         
         let publications= new Publications();
      
-      
-
-
-
         let employeeFound=await this.employeeRepository.findOne({
        
             where:{
