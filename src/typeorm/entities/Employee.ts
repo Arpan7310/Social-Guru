@@ -1,7 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable,CreateDateColumn,OneToMany, IsNull} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn ,ManyToMany, JoinTable,CreateDateColumn,OneToMany, IsNull, OneToOne} from "typeorm";
 import { AcademicCerficate } from "./AcademicCertificate";
+import { EmployeeAwards } from "./EmployeeAwards";
+import { ExpectedOpportunity } from "./ExpectedOpportunity";
 import { Job } from "./Job";
 import { ProfessionalCerficate } from "./ProfessionalCertificates";
+import { ProfessionalProfile } from "./ProfessionalProfile";
 import { Publications } from "./Publications";
 
 
@@ -18,7 +21,9 @@ export class Employee {
     @Column()
     lastname:string
 
-    @Column() 
+    @Column({
+        unique:true
+    }) 
     email:string
 
     @Column()
@@ -105,8 +110,17 @@ export class Employee {
     academicCertificate:AcademicCerficate[];
 
     
+    @OneToMany(()=>ProfessionalProfile,p=>p.employee)
+    professionalProfile:ProfessionalProfile[]
 
 
+    @OneToMany(()=>ExpectedOpportunity,e=>e.employee)
+    expectedOpportunity:ExpectedOpportunity[]
+
+
+    @OneToMany(()=>EmployeeAwards,ea=>ea.employee)
+    employeeAwards:EmployeeAwards[]
+  
 }
     
 

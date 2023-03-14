@@ -3,7 +3,7 @@ import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { CreateEmployeeDto } from 'src/client/dtos/CreateEmployee.dto';
 import { Employee } from 'src/typeorm/entities/Employee';
-import { DataSource, getManager, Repository } from 'typeorm';
+import { DataSource, getConnection, getManager, Repository, TransactionAlreadyStartedError } from 'typeorm';
 import { threadId } from 'worker_threads';
 import { encodePassword,isMatch } from 'src/utils/bcrypt';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
@@ -22,6 +22,15 @@ import { Certificate } from 'crypto';
 import { Publications } from 'src/typeorm/entities/Publications';
 import { PublicationsDto } from 'src/client/dtos/PublicationsDto.dto';
 import { Author } from 'src/typeorm/entities/Authors';
+import { ProfessionalProfile } from 'src/typeorm/entities/ProfessionalProfile';
+import { Achievements } from 'src/typeorm/entities/Achievements';
+import { Responsibilities } from 'src/typeorm/entities/Responsibilities';
+import { ProfessionalProfileDto } from 'src/typeorm/dtos/ProfessionalProfile.dto';
+import { ExpectedOpportunityDto } from 'src/typeorm/dtos/ExpectedOpportunity.dto';
+import { ExpectedOpportunity } from 'src/typeorm/entities/ExpectedOpportunity';
+import { EmployeeAwardsDto } from 'src/typeorm/dtos/EmployeeAwards.dto';
+import { EmployeeAwards } from 'src/typeorm/entities/EmployeeAwards';
+
 
 
 @Injectable()
@@ -34,8 +43,13 @@ export class EmployeeService {
      @InjectRepository(AcademicCerficate) private academicCertificate:Repository<AcademicCerficate>,
      @InjectRepository(Publications) private publications:Repository<Publications>,
      @InjectRepository(ProfessionalCerficate) private professionalCertificate:Repository<ProfessionalCerficate>,
-     @InjectRepository(Author) private authorRepository:Repository<Author>
-
+     @InjectRepository(Author) private authorRepository:Repository<Author>,
+     @InjectRepository(ProfessionalProfile) private professionalProfileRepo:Repository<ProfessionalProfile>,
+     @InjectRepository(Achievements) private achievementsRepo:Repository<Achievements>,
+     @InjectRepository(Responsibilities) private responsibilitiesRepo:Repository<Responsibilities>,
+     @InjectRepository(ExpectedOpportunity) private expectedOpportunityRepo:Repository<ExpectedOpportunity>,
+     @InjectRepository(EmployeeAwards) private employeeAwardsRepo:Repository<EmployeeAwards>
+ 
     ) {
      
     }
@@ -54,6 +68,7 @@ export class EmployeeService {
 
     async createEmployee(createEmployeeParams: CreateEmployeeDto) {
 
+    
         let foundEmployee = await this.employeeRepository.findOne({ where: { email: createEmployeeParams.email } });
         var employeeDto: any;
         let otp = Math.random().toString().substring(2, 7);
@@ -248,6 +263,7 @@ export class EmployeeService {
         console.log(certificationsDto)
   
 
+
         let certificate = new ProfessionalCerficate();
       
         certificate.course=certificationsDto.course;
@@ -320,6 +336,139 @@ export class EmployeeService {
 
 
      }
+
+
+     async createProfessionalProfile (professionalProfileDto:ProfessionalProfileDto) {
+
+
+        let foundEmployee= await this.employeeRepository.findOne({
+            where:{
+                id:professionalProfileDto.employeeId
+                
+            },
+            transaction:true
+        })
+
+
+        if(!foundEmployee) {
+            throw new HttpException("Employee not found",400)
+        }
+
+
+     
+
+      let  professionalProfile= new ProfessionalProfile()
+
+        professionalProfile.duration=professionalProfileDto.duration;
+        professionalProfile.feescharged=professionalProfileDto.feescharged;
+        professionalProfile.organization=professionalProfileDto.organization;
+        professionalProfile.responsibilities=professionalProfileDto.responsibilities;
+        professionalProfile.feescharged=professionalProfileDto.feescharged;
+        professionalProfile.type=professionalProfileDto.type;
+        professionalProfile.income=professionalProfileDto.income;
+        professionalProfile.levelOfexpertise=professionalProfileDto.levelOfexpertise;
+        professionalProfile.sampleofwork=professionalProfileDto.sampleofwork;
+        professionalProfile.value=professionalProfileDto.value;
+        professionalProfile.geography=professionalProfileDto.geography;
+        professionalProfile.employee=foundEmployee;
+
+
+        let savedProfessionalProfile=await this.professionalProfileRepo.save(professionalProfile,{
+            transaction:true
+        });
+      
+    
+
+     
+
+        professionalProfileDto.achievements.forEach(el=>{
+            let achievments=new Achievements();
+            achievments.professionalProfile=savedProfessionalProfile;
+            achievments.achievement=el
+            this.achievementsRepo.save(achievments,{
+                transaction:true
+            })
+        })
+
+
+     }
+
+
+     async createExpectedOpportunity (expectedOpportunityDto:ExpectedOpportunityDto) {
+
+   
+
+        let foundEmployee=await this.employeeRepository.findOne({
+            where:{
+                id:expectedOpportunityDto.empId
+            }
+        })
+
+
+        if(!foundEmployee) {
+            throw new HttpException("Employee not found",400)
+        }
+
+
+
+
+         let expectedOpportunity= new ExpectedOpportunity()
+
+
+
+        expectedOpportunity.days=expectedOpportunityDto.days
+        expectedOpportunity.desiredtype=expectedOpportunityDto.desiredtype
+        expectedOpportunity.employee=foundEmployee;
+        expectedOpportunity.expectation=expectedOpportunityDto.expectation
+        expectedOpportunity.hours=expectedOpportunityDto.hours
+        expectedOpportunity.location=expectedOpportunityDto.location
+        expectedOpportunity.months=expectedOpportunityDto.months
+        expectedOpportunity.natureofassigment=expectedOpportunityDto.natureofassigment
+        expectedOpportunity.traveltype=expectedOpportunityDto.traveltype
+        
+
+        return this.expectedOpportunityRepo.save(expectedOpportunity)
+
+     }
+
+
+
+     async createAwardsOpportunity (employeeAwardsDto:EmployeeAwardsDto) {
+
+
+
+    
+        let employeeAward = new EmployeeAwards();
+        let foundEmployee= await this.employeeRepository.findOne({
+            where:{
+                id:employeeAwardsDto.empId
+            }
+        })
+
+
+        if(!foundEmployee) {
+            throw new HttpException("Employee not found",400)
+        }
+
+
+        employeeAward.date=employeeAwardsDto.date
+        employeeAward.levelofaward=employeeAwardsDto.levelofaward
+        employeeAward.name=employeeAwardsDto.name
+        employeeAward.recognisedby=employeeAwardsDto.recognisedby
+        employeeAward.employee=foundEmployee
+       
+
+        return this.employeeAwardsRepo.save(employeeAward)
+     }
+
+
+     async getResponsibilities () {
+        return this.responsibilitiesRepo.find()
+     }
+
+
+
+     
 
 
      

@@ -8,6 +8,10 @@ import { EmployeeBasicProfileDto } from 'src/client/dtos/EmployeeBasicProfile.dt
 import { PublicationsDto } from 'src/client/dtos/PublicationsDto.dto';
 import { VerifyOtpDto } from 'src/client/dtos/VerifyOtp.dto';
 import { EmployeeService } from 'src/employee/service/employee/employee.service';
+import { EmployeeAwardsDto } from 'src/typeorm/dtos/EmployeeAwards.dto';
+import { ExpectedOpportunityDto } from 'src/typeorm/dtos/ExpectedOpportunity.dto';
+import { ProfessionalProfileDto } from 'src/typeorm/dtos/ProfessionalProfile.dto';
+import { EmployeeAwards } from 'src/typeorm/entities/EmployeeAwards';
 
 @Controller('employee')
 export class EmployeeController {
@@ -173,9 +177,62 @@ export class EmployeeController {
 
 
 
-   
-   
+    @Post("/saveProfessionalProfile")
+
+    async createProfessionalProfile (@Body() createProfessionalProfileDto:ProfessionalProfileDto) {
+      try {
+       return this.employeeService.createProfessionalProfile(createProfessionalProfileDto)
+      }
+      catch(err) {
+        throw new HttpException(err.message,err.status)
+      }
+    }
+
+
+
+    @Post("/saveExpectedOpportunity")
+
+    async expectedOpportunity (@Body() expectedOpportunityDto:ExpectedOpportunityDto) {
+
+      try {
+       return this.employeeService.createExpectedOpportunity(expectedOpportunityDto)
+      }
+      catch (err) {
+        throw new HttpException(err.message,err.status)
+      }
+    }
+
+
+    @Post("/saveEmployeeAwards") 
+
+    async saveEmployeeAwards (@Body() employeeAwardsDto:EmployeeAwardsDto) {
+      try {
+
+        return this.employeeService.createAwardsOpportunity(employeeAwardsDto)
+      }
+      catch (err) {
+        throw new HttpException(err.message,err.status)
+      }
+      }
+
+
+
+      @Get("/fetchResponsibilities")
+
+
+      async fetchResponsibilities ( ) {
+        try {
+            return this.employeeService.getResponsibilities()
+        }
+        catch(err){
+          throw new HttpException(err.message,err.status)
+        }
+      }
+
     
+
+
+
 
 
 }

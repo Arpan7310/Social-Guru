@@ -21,6 +21,11 @@ import { AcademicCerficate } from './typeorm/entities/AcademicCertificate';
 import { Publications } from './typeorm/entities/Publications';
 import { ProfessionalCerficate } from './typeorm/entities/ProfessionalCertificates';
 import { Author } from './typeorm/entities/Authors';
+import { Responsibilities } from './typeorm/entities/Responsibilities';
+import { EmployeeAwards } from './typeorm/entities/EmployeeAwards';
+import { ExpectedOpportunity } from './typeorm/entities/ExpectedOpportunity';
+import { ProfessionalProfile } from './typeorm/entities/ProfessionalProfile';
+import { Achievements } from './typeorm/entities/Achievements';
 
 
 
@@ -42,7 +47,14 @@ import { Author } from './typeorm/entities/Authors';
     username:process.env.db_username,
     password:process.env.db_password,
     database:process.env.db_name,
-    entities:[Client,Employee,City,Job,Skill,EmployeeJobHire,Chat,AcademicCerficate,Publications,ProfessionalCerficate,Author],
+    entities:[Client,
+      Employee,City,
+      Job,Skill,EmployeeJobHire,
+      Chat,AcademicCerficate,Publications,
+      ProfessionalCerficate,Author,Responsibilities,
+      EmployeeAwards,ExpectedOpportunity,ProfessionalProfile,Responsibilities,
+       ExpectedOpportunity,
+      Achievements],
     synchronize:true
   }), 
 
