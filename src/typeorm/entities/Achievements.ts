@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ProfessionalProfile } from "./ProfessionalProfile";
 
 
-@Entity({name:"EmployeAchievemnets"})
+@Entity({name:"EmployeAchievements"})
 export class Achievements {
 
 

@@ -39,4 +39,29 @@ export class Client {
     @OneToMany(()=>Job,job=>job.client)
     job:Job[]
 
+
+
+
+
+  
+    @Column({
+        nullable:true
+    })
+    briefofbusiness:string
+
+
+
+    @Column({
+        nullable:true
+    })
+    location:string
+
+
+    @Column({
+        nullable:true
+    })
+    authorizedPerson:string
+
+
+ 
 }

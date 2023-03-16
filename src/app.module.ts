@@ -26,6 +26,9 @@ import { EmployeeAwards } from './typeorm/entities/EmployeeAwards';
 import { ExpectedOpportunity } from './typeorm/entities/ExpectedOpportunity';
 import { ProfessionalProfile } from './typeorm/entities/ProfessionalProfile';
 import { Achievements } from './typeorm/entities/Achievements';
+import { Language } from './typeorm/entities/Language';
+import { Experience } from './typeorm/entities/Experience';
+import { Education } from './typeorm/entities/Education';
 
 
 
@@ -52,8 +55,9 @@ import { Achievements } from './typeorm/entities/Achievements';
       Job,Skill,EmployeeJobHire,
       Chat,AcademicCerficate,Publications,
       ProfessionalCerficate,Author,Responsibilities,
-      EmployeeAwards,ExpectedOpportunity,ProfessionalProfile,Responsibilities,
-       ExpectedOpportunity,
+      EmployeeAwards,ExpectedOpportunity,
+      ProfessionalProfile,Responsibilities,
+      ExpectedOpportunity,Language,Experience,Education,
       Achievements],
     synchronize:true
   }), 

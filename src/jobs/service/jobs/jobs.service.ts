@@ -1,6 +1,7 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { InjectRepository,InjectDataSource } from '@nestjs/typeorm';
+import { create } from 'domain';
 
 import { Http2ServerRequest } from 'http2';
 import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
@@ -38,14 +39,25 @@ export class JobsService {
        }
        job.duration=createJobDto.duration;
        job.jobprofile=createJobDto.jobprofile;
-       job.openings=createJobDto.openings;
-       job.responsibilities=createJobDto.responsibilities;
-       job.stipendamountmax=createJobDto.stipendamountmax;
-       job.stipendamountmin=createJobDto.stipendamountmin;
-       job.workfromhome=createJobDto.workfromhome;
-       job.openings=createJobDto.openings;
-       job.stipendtype=createJobDto.stipendtype;
+       job.compensation=createJobDto.compensation
+       job.contactNumber=createJobDto.contactNumber
+       job.contactemail=createJobDto.contactemail
+       job.contactname=createJobDto.contactemail
+       job.deadline=createJobDto.deadline
+       job.duration=createJobDto.duration
+       job.education=createJobDto.education
+       job.experience=createJobDto.experience
+       job.engagementtype=createJobDto.engagementtype
+       job.jobdescription=createJobDto.jobdescription
+       job.jobprofile=createJobDto.jobprofile
+       job.natureofwork=createJobDto.natureofwork
+       job.role=createJobDto.role
+       job.total=createJobDto.total
+       job.travel=createJobDto.travel
+       job.typeofwork=createJobDto.typeofwork
+       job.worklocation=createJobDto.worklocation
        job.client=foundClient;
+       job.years=createJobDto.years;
        job.cities=createJobDto.cities;
        job.skills=createJobDto.skills;
        job.startDate=createJobDto.startDate;
@@ -110,8 +122,8 @@ export class JobsService {
       throw new HttpException("Opportunity not found",400)
     }
 
-    if(foundJob.openings>0){
-    foundJob.openings=foundJob.openings-1;
+    if(foundJob.total>0){
+    foundJob.total=foundJob.total-1;
 
     const foundEmpJobHire=await this.dataSource.query("Select * from EmployeeJob where jobId=? and employeeId=?",[applyJobDto.jobId,applyJobDto.employeeId]);
  

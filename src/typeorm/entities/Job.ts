@@ -1,7 +1,10 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, ColumnTypeUndefinedError, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import  {City} from './Cities'
 import { Client } from "./Client";
+import { Education } from "./Education";
 import { Employee } from "./Employee";
+import { Experience } from "./Experience";
+import { Language } from "./Language";
 import {Skill} from './Skills'
 
 @Entity({name:"job"})
@@ -18,17 +21,19 @@ export class Job {
     
  
     @Column()
-    workfromhome:boolean
+    worklocation:string
 
     @Column()
-    openings:number
+    total:number
      
     @Column()
-    duration:number
+    duration:string
 
     
     @Column()
-    responsibilities:string;
+    jobdescription:string;
+
+
 
 
     @ManyToMany(()=>City)
@@ -40,31 +45,22 @@ export class Job {
     @JoinTable()
     skills:Skill[];
 
+
+   
     @Column()
-    stipendtype:string
-
-    @Column({
-        default:0
-    })
-    stipendamountmin:number
-
-    @Column({
-        default:0
-    })
-    stipendamountmax:number
+    compensation:string
 
 
 
-     @ManyToOne(()=>Client,client=>client.job)
+    @ManyToOne(()=>Client,client=>client.job)
      client:Client
 
-
-     @CreateDateColumn({
+    @CreateDateColumn({
         type:'timestamp',
       })
       startDate:Date
 
-     @CreateDateColumn({
+    @CreateDateColumn({
          type:'timestamp'
       })
      endDate:Date;
@@ -72,25 +68,55 @@ export class Job {
      @Column()
      travel:string
 
-     @Column()
-     language:string
+     @ManyToMany(()=>Language)
+     @JoinTable()
+     language:Language[]
 
-     @Column()
-     nature:string
+     @Column() 
+     natureofwork:string
 
      @Column()
      typeofwork:string
 
+     @CreateDateColumn({
+        type:'timestamp'
+     })
+     deadline:Date
+
+
+    @Column()
+    contactname:string
+
+
+    @Column()
+    contactemail:string
+
+
+    @Column()
+    contactNumber:string
+
+
+    @ManyToMany(()=>Education)
+    @JoinTable()
+    education:Education[]
+
+
+    @Column()
+    role:string
+
+
+    @ManyToMany(()=>Experience)
+    @JoinTable()
+    experience:Experience[]
 
 
 
+    @Column()
+    engagementtype:string
 
 
-
-     
-
-
-
+    @Column()
+    years:number
 
 
 }
