@@ -8,8 +8,10 @@ import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { createJobDto } from 'src/client/dtos/CreateJob.dto';
 import { City } from 'src/typeorm/entities/Cities';
 import { Client } from 'src/typeorm/entities/Client';
+import { Education } from 'src/typeorm/entities/Education';
 import { Employee } from 'src/typeorm/entities/Employee';
 import { EmployeeJobHire } from 'src/typeorm/entities/EmployeeJob';
+import { Experience } from 'src/typeorm/entities/Experience';
 import { Job } from 'src/typeorm/entities/Job';
 import { Skill } from 'src/typeorm/entities/Skills';
 import { Not, Repository,DataSource } from 'typeorm';
@@ -23,7 +25,9 @@ export class JobsService {
     @InjectRepository(Skill) private skillRepository:Repository<Skill>,@InjectRepository(Client) private clientRepository:Repository<Client>,
     @InjectRepository(Employee) private employeeRepository:Repository<Employee>,
     @InjectRepository(EmployeeJobHire) private empJobHireRepository:Repository<EmployeeJobHire>,
-    @InjectDataSource() private dataSource:DataSource
+    @InjectDataSource() private dataSource:DataSource,
+    @InjectRepository(Education) private qualificationRepository:Repository<Education>,
+    @InjectRepository(Experience) private experienceRepository:Repository<Experience>
      ){
        
     }
@@ -46,7 +50,7 @@ export class JobsService {
        job.deadline=createJobDto.deadline
        job.duration=createJobDto.duration
        job.education=createJobDto.education
-       job.experience=createJobDto.experience
+       
        job.engagementtype=createJobDto.engagementtype
        job.jobdescription=createJobDto.jobdescription
        job.jobprofile=createJobDto.jobprofile
@@ -62,9 +66,18 @@ export class JobsService {
        job.skills=createJobDto.skills;
        job.startDate=createJobDto.startDate;
        job.endDate=createJobDto.endDate;
-  
-       return this.jobsRepository.save(job)
+       job.language=createJobDto.language;
+    
 
+  
+      let savedJob=await this.jobsRepository.save(job);
+
+      createJobDto.experience.forEach( async el=>{
+        let experience= new Experience();
+        experience.experience=el.experience
+        await this.experienceRepository.save(experience)
+      })
+  return savedJob;
     
     }
 
@@ -151,6 +164,12 @@ export class JobsService {
 
       const res= await this.dataSource.query("Select * from employee left join  EmployeeJob on employee.id=EmployeeJob.employeeId where jobId=?",[jobId]);
       return res;
+    }
+
+
+
+    async findQualifications () {
+      return this.qualificationRepository.find()
     }
 
 

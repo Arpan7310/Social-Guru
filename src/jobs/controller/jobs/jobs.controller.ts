@@ -63,6 +63,15 @@ export class JobsController {
        const res=await  this.jobsService.findEmployees(jobId);
        return res;
     }
+    
+       
+    @Get("/findQualifications")
+
+  
+     async findQualifications() {
+
+        return this.jobsService.findQualifications();
+    }
 
 
     

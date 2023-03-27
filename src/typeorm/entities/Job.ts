@@ -60,7 +60,7 @@ export class Job {
       })
       startDate:Date
 
-    @CreateDateColumn({
+     @CreateDateColumn({
          type:'timestamp'
       })
      endDate:Date;
@@ -68,9 +68,8 @@ export class Job {
      @Column()
      travel:string
 
-     @ManyToMany(()=>Language)
-     @JoinTable()
-     language:Language[]
+     @Column()
+     language:string
 
      @Column() 
      natureofwork:string
@@ -108,7 +107,6 @@ export class Job {
     @ManyToMany(()=>Experience)
     @JoinTable()
     experience:Experience[]
-
 
 
     @Column()

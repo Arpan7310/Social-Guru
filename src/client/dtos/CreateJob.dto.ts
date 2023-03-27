@@ -22,7 +22,7 @@ export class createJobDto {
     startDate:Date
     endDate:Date;
     travel:string
-    language:Language[]
+    language:string
     natureofwork:string
     typeofwork:string
     deadline:Date

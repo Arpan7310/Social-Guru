@@ -3,15 +3,15 @@ import { Job } from "./Job";
 
 
 
-@Entity({name:"educationqualification"})
+@Entity({name:"Qualification"})
 export  class Education {
 
     @PrimaryGeneratedColumn()
     id:number
   
-    @Column()
-    educationqualification:string
-
+    @Column({})
+    qualification:string
+    
 
   
 }
