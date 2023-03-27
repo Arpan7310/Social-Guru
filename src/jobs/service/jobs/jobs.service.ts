@@ -50,7 +50,6 @@ export class JobsService {
        job.deadline=createJobDto.deadline
        job.duration=createJobDto.duration
        job.education=createJobDto.education
-       
        job.engagementtype=createJobDto.engagementtype
        job.jobdescription=createJobDto.jobdescription
        job.jobprofile=createJobDto.jobprofile
@@ -77,7 +76,7 @@ export class JobsService {
         experience.experience=el.experience
         await this.experienceRepository.save(experience)
       })
-  return savedJob;
+      return savedJob;
     
     }
 
