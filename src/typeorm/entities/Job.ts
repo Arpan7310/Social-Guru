@@ -55,7 +55,7 @@ export class Job {
     @ManyToOne(()=>Client,client=>client.job)
      client:Client
 
-    @CreateDateColumn({
+     @CreateDateColumn({
         type:'timestamp',
       })
       startDate:Date
@@ -104,8 +104,8 @@ export class Job {
     role:string
 
 
-    @ManyToMany(()=>Experience)
-    @JoinTable()
+    @OneToMany(()=>Experience,experience=>experience.job)
+
     experience:Experience[]
 
 

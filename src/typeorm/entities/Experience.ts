@@ -1,4 +1,5 @@
-import { Column, Entity, EntityMetadata, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, EntityMetadata, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
 import { Job } from "./Job";
 
 
@@ -13,6 +14,9 @@ export class Experience {
     @Column()
     experience:string
 
+    @ManyToOne(()=>Job,job=>job.experience)
+    @JoinColumn()
+    job:Job
 
 
    
