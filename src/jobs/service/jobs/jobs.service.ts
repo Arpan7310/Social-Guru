@@ -34,6 +34,7 @@ export class JobsService {
 
 
     async createJob(createJobDto:createJobDto) {
+      try {
        let job=new Job();
        let cities=[],skills=[];
        let foundClient=await this.clientRepository.findOne({where:{id:createJobDto.clientId}});
@@ -77,7 +78,10 @@ export class JobsService {
         await this.experienceRepository.save(experience)
       })
       return savedJob;
-    
+      }
+      catch(err){
+        throw new HttpException(err.message,err.status)
+      }
     }
 
 

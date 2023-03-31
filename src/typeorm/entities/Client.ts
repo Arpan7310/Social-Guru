@@ -40,10 +40,6 @@ export class Client {
     job:Job[]
 
 
-
-
-
-  
     @Column({
         nullable:true
     })

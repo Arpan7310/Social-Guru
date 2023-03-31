@@ -13,10 +13,9 @@ export class ClientController {
     @Post()
     async createClient(@Body() createClientDto:CreateClientDto) {
         try {
-              await this.clientService.createUser(createClientDto);
-           return {
-              message:"Client created successfully"
-            }
+      
+              return this.clientService.createUser(createClientDto);
+     
          }
         catch(err){
          console.log(err);
