@@ -1,4 +1,4 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { InjectRepository,InjectDataSource } from '@nestjs/typeorm';
 import { create } from 'domain';
@@ -80,7 +80,7 @@ export class JobsService {
       return savedJob;
       }
       catch(err){
-        throw new HttpException(err.message,err.status)
+        throw new HttpException(err.message,500)
       }
     }
 
