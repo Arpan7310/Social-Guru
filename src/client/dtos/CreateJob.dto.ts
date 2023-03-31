@@ -18,7 +18,6 @@ export class createJobDto {
     cities:City[];
     skills:Skill[];
     compensation:string
-    client:Client
     startDate:Date
     endDate:Date;
     travel:string
