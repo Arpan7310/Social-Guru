@@ -59,5 +59,7 @@ export class Client {
     authorizedPerson:string
 
 
+    
+   
  
 }

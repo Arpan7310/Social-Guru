@@ -49,7 +49,7 @@ export class EmployeeService {
      @InjectRepository(Responsibilities) private responsibilitiesRepo:Repository<Responsibilities>,
      @InjectRepository(ExpectedOpportunity) private expectedOpportunityRepo:Repository<ExpectedOpportunity>,
      @InjectRepository(EmployeeAwards) private employeeAwardsRepo:Repository<EmployeeAwards>
- 
+    
     ) {
      
     }
@@ -467,6 +467,49 @@ export class EmployeeService {
      }
 
 
+     async fetchAcademicCertificates () {
+        return this.academicCertificate.find()
+     }
+
+
+     async fetchCertificates () {
+        return this.publications.find()
+     }
+
+
+     async fetchPublications () {
+        return  this.publications.find()
+     }
+
+
+     async fetchProfessionalCertificates () {
+        return this.professionalCertificate.find()
+     }
+
+
+     async fetchAuthors () {
+        return this.authorRepository.find()
+     }
+
+
+     async fetchAchievements  () {
+        return this.achievementsRepo.find()
+     }
+
+
+     async fetchExpectedOpportunities  () {
+        return  this.expectedOpportunityRepo.find()
+     }
+
+
+     async fetchEmployeeAwards () {
+        return this.employeeAwardsRepo.find()
+     }
+
+
+    
+
+    
 
      
 

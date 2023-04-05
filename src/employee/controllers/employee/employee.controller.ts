@@ -230,12 +230,60 @@ export class EmployeeController {
       }
 
 
-   
+      @Get("/fetchAcademicCertificates") 
 
-    
+      async fetchAcademicCertificates () {
+
+        try {
+             return this.employeeService.fetchAcademicCertificates()
+        }
+        catch (err) {
+            throw new HttpException(err.message,err.status)
+        }
+      }
 
 
 
+      @Get("/fetchAwards")
+
+      async fetchAwards () {
+
+        try {
+ 
+          return this.employeeService.fetchEmployeeAwards()
+        }
+        catch (err) {
+          throw new HttpException(err.message,err.status)
+        }
+      }
 
 
+
+      @Get("/fetchPublications")
+
+      async fetchPublications () {
+        return this.employeeService.fetchPublications()
+      }
+
+
+      @Get("/fetchAcademicAwards") 
+       async fetchAcademicAwards () {
+        return this.employeeService.fetchAcademicCertificates()
+      } 
+
+      @Get("/fetchExpectedOpportunities") 
+      async fetchExpectedOpportunities () {
+        return this.employeeService.fetchExpectedOpportunities()
+      }
+
+      @Get("/fetchEmployeeAwards") 
+      async fetchEmployeeAwards () {
+        return this.employeeService.fetchEmployeeAwards()
+      }
+
+
+      @Get("/fetchAuthors")
+      async fetchAuthors () {
+        return this.employeeService.fetchAuthors()
+      }
 }
