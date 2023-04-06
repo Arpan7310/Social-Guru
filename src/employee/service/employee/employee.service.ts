@@ -468,7 +468,7 @@ export class EmployeeService {
 
 
      async fetchAcademicCertificates (empId:number) {
-        console.log(empId)
+        
         let results=await this.dataSource.query("Select * from AcademicCertificate where employeeId = ?",[empId])
         return results;
      }
