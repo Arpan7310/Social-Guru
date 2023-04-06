@@ -467,43 +467,51 @@ export class EmployeeService {
      }
 
 
-     async fetchAcademicCertificates () {
-        return this.academicCertificate.find()
+     async fetchAcademicCertificates (empId:number) {
+        let results=await this.dataSource.query("Select * from AcademicCertificate where empId in ?",[empId])
+        return results;
+     }
+
+     async fetchCertificates (empId:number) {
+        let results=await this.dataSource.query("Select * from certificates where empId in ?",[empId])
+        return results;
      }
 
 
-     async fetchCertificates () {
-        return this.publications.find()
+     async fetchPublications (empId:number) {
+        let results=await this.dataSource.query("Select * from publications where empId in ?",[empId])
+        return results
      }
 
 
-     async fetchPublications () {
-        return  this.publications.find()
+     async fetchProfessionalCertificates (empId:number) {
+        let results=await this.dataSource.query("Select * from certificates where empId in ?",[empId])
+        return results
      }
 
 
-     async fetchProfessionalCertificates () {
-        return this.professionalCertificate.find()
+     async fetchAuthors (empId:number) {
+        let results=await this.dataSource.query("Select * from author where empId in ?",[empId])
+        return results
      }
 
 
-     async fetchAuthors () {
-        return this.authorRepository.find()
+     async fetchAchievements  (empId:number) {
+        let results=await this.dataSource.query("Select * from EmployeAchievements where empId in ?",[empId])
+        return results
+       
      }
 
 
-     async fetchAchievements  () {
-        return this.achievementsRepo.find()
+     async fetchExpectedOpportunities  (empId:number) {
+        let results=await this.dataSource.query("Select * from ExpectedOpportunity  where empId in ? ",[empId])
+        return results;
      }
 
 
-     async fetchExpectedOpportunities  () {
-        return  this.expectedOpportunityRepo.find()
-     }
-
-
-     async fetchEmployeeAwards () {
-        return this.employeeAwardsRepo.find()
+     async fetchEmployeeAwards (empId:number) {
+        let results=await this.dataSource.query("Select * from EmployeeAwards  where empId in ? ",[empId])
+        return results; 
      }
 
 

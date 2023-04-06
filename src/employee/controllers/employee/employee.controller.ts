@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Post,Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Param, Post,Query } from '@nestjs/common';
 import { AcademicProfileDto } from 'src/client/dtos/AcademicProfileDto.dto';
 import { applyJobDto } from 'src/client/dtos/ApplyJobDto.dto';
 import { CertificationsDto } from 'src/client/dtos/CeritificateDto.dto';
@@ -217,10 +217,10 @@ export class EmployeeController {
 
 
 
-      @Get("/fetchResponsibilities")
+      @Get("/fetchResponsibilities/")
 
 
-      async fetchResponsibilities ( ) {
+      async fetchResponsibilities () {
         try {
             return this.employeeService.getResponsibilities()
         }
@@ -230,12 +230,12 @@ export class EmployeeController {
       }
 
 
-      @Get("/fetchAcademicCertificates") 
+      @Get("/fetchAcademicCertificates/:empId") 
 
-      async fetchAcademicCertificates () {
+      async fetchAcademicCertificates (@Param('empId') empId:number) {
 
         try {
-             return this.employeeService.fetchAcademicCertificates()
+             return this.employeeService.fetchAcademicCertificates(empId)
         }
         catch (err) {
             throw new HttpException(err.message,err.status)
@@ -244,13 +244,13 @@ export class EmployeeController {
 
 
 
-      @Get("/fetchAwards")
+      @Get("/fetchAwards/:empId")
 
-      async fetchAwards () {
+      async fetchAwards (@Param('empId') empId:number) {
 
         try {
  
-          return this.employeeService.fetchEmployeeAwards()
+          return this.employeeService.fetchEmployeeAwards(empId)
         }
         catch (err) {
           throw new HttpException(err.message,err.status)
@@ -259,31 +259,31 @@ export class EmployeeController {
 
 
 
-      @Get("/fetchPublications")
+      @Get("/fetchPublications/:empId")
 
-      async fetchPublications () {
-        return this.employeeService.fetchPublications()
+      async fetchPublications (@Param('empId') empId:number) {
+        return this.employeeService.fetchPublications(empId)
       }
 
 
-      @Get("/fetchAcademicAwards") 
-       async fetchAcademicAwards () {
-        return this.employeeService.fetchAcademicCertificates()
+      @Get("/fetchAcademicAwards/:empId") 
+       async fetchAcademicAwards (@Param('empId') empId:number) {
+        return this.employeeService.fetchAcademicCertificates(empId)
       } 
 
-      @Get("/fetchExpectedOpportunities") 
-      async fetchExpectedOpportunities () {
-        return this.employeeService.fetchExpectedOpportunities()
+      @Get("/fetchExpectedOpportunities/:empId") 
+      async fetchExpectedOpportunities (@Param('empId') empId:number) {
+        return this.employeeService.fetchExpectedOpportunities(empId)
       }
 
-      @Get("/fetchEmployeeAwards") 
-      async fetchEmployeeAwards () {
-        return this.employeeService.fetchEmployeeAwards()
+      @Get("/fetchEmployeeAwards/:empId") 
+      async fetchEmployeeAwards (@Param('empId') empId:number) {
+        return this.employeeService.fetchEmployeeAwards(empId)
       }
 
 
-      @Get("/fetchAuthors")
-      async fetchAuthors () {
-        return this.employeeService.fetchAuthors()
+      @Get("/fetchAuthors/:empId")
+      async fetchAuthors (@Param('empId') empId:number) {
+        return this.employeeService.fetchAuthors(empId)
       }
 }
