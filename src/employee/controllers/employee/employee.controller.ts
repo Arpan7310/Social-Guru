@@ -12,6 +12,7 @@ import { EmployeeAwardsDto } from 'src/typeorm/dtos/EmployeeAwards.dto';
 import { ExpectedOpportunityDto } from 'src/typeorm/dtos/ExpectedOpportunity.dto';
 import { ProfessionalProfileDto } from 'src/typeorm/dtos/ProfessionalProfile.dto';
 import { EmployeeAwards } from 'src/typeorm/entities/EmployeeAwards';
+import { threadId } from 'worker_threads';
 
 @Controller('employee')
 export class EmployeeController {
@@ -230,6 +231,20 @@ export class EmployeeController {
       }
 
 
+
+      @Get("/fetchProfessionalProfile/:empId")
+
+      async fetchProfessionalProfile (@Param('empId') empId:number) {
+        try {
+           return this.employeeService.fetchProfessionalProfile(empId)
+        }
+        catch (err){
+          throw new HttpException(err.message,err.status)
+        }
+
+      }
+
+
       @Get("/fetchAcademicCertificates/:empId") 
 
       async fetchAcademicCertificates (@Param('empId') empId:number) {
@@ -243,32 +258,15 @@ export class EmployeeController {
       }
 
 
-
-      @Get("/fetchAwards/:empId")
-
-      async fetchAwards (@Param('empId') empId:number) {
-
-        try {
- 
-          return this.employeeService.fetchEmployeeAwards(empId)
-        }
-        catch (err) {
-          throw new HttpException(err.message,err.status)
-        }
-      }
-
-
-
       @Get("/fetchPublications/:empId")
-
       async fetchPublications (@Param('empId') empId:number) {
         return this.employeeService.fetchPublications(empId)
       }
 
 
-      @Get("/fetchAcademicAwards/:empId") 
+      @Get("/fetchProfessionalCertificates/:empId") 
        async fetchAcademicAwards (@Param('empId') empId:number) {
-        return this.employeeService.fetchAcademicCertificates(empId)
+        return this.employeeService.fetchProfessionalCertificates(empId)
       } 
 
       @Get("/fetchExpectedOpportunities/:empId") 
@@ -282,8 +280,7 @@ export class EmployeeController {
       }
 
 
-      @Get("/fetchAuthors/:empId")
-      async fetchAuthors (@Param('empId') empId:number) {
-        return this.employeeService.fetchAuthors(empId)
-      }
+
+
+
 }

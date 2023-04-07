@@ -491,29 +491,50 @@ export class EmployeeService {
      }
 
 
-     async fetchAuthors (empId:number) {
-        let results=await this.dataSource.query("Select * from author where employeeId = ?",[empId])
-        return results
-     }
 
 
-     async fetchAchievements  (empId:number) {
-        let results=await this.dataSource.query("Select * from EmployeAchievements where employeeId = ?",[empId])
-        return results
-       
-     }
 
 
      async fetchExpectedOpportunities  (empId:number) {
-        let results=await this.dataSource.query("Select * from ExpectedOpportunity  where employeeId in ? ",[empId])
+        let results=await this.dataSource.query("Select * from ExpectedOpportunity  where employeeId = ? ",[empId])
         return results;
      }
 
 
      async fetchEmployeeAwards (empId:number) {
-        let results=await this.dataSource.query("Select * from EmployeeAwards  where employeeId in ? ",[empId])
+        let results=await this.dataSource.query("Select * from EmployeeAwards  where employeeId = ? ",[empId])
         return results; 
      }
+
+
+
+     async fetchProfessionalProfile  (empId:number) {
+        var results=await this.dataSource.query("Select * from ProfessionalProfile  where employeeId =?   ",[empId])
+         let resultsarray=[];
+       
+
+
+         for(let i=0;i<results.length;i++){
+         let el=results[i];
+       
+      
+         let achievements=await this.dataSource.query("Select * from EmployeAchievements where professionalProfileId=?",[el["id"]]);
+         let responsibilities=await this.dataSource.query("Select * from Responsibilities left join professional_profile_responsibilities_responsibilities on Responsibilities.id = professional_profile_responsibilities_responsibilities.responsibilitiesId  where professionalProfileId=? ",[el["id"]])
+         el["achievments"]=achievements
+         el["responsibilities"]=responsibilities
+         resultsarray.push(el)
+         }
+
+
+     
+        
+      return resultsarray;
+  
+     }
+
+
+
+
 
 
     
