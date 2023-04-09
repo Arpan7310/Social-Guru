@@ -281,6 +281,13 @@ export class EmployeeController {
 
 
 
+      @Get("/fetchBasicProfile/:empId")
+      async fetchBasicProfile (@Param('empId') empId:number){
+        return this.employeeService.fetchBasicProfile(empId)
+      }
+
+
+
 
 
 }
